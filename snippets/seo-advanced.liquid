@@ -72,11 +72,11 @@
         "postalCode": "{{ settings.seo_address_zip }}",
         "addressCountry": "US"
       },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": {{ settings.seo_latitude }},
-        "longitude": {{ settings.seo_longitude }}
-      },
+             "geo": {
+         "@type": "GeoCoordinates",
+         "latitude": {{ settings.seo_latitude | default: 26.1224 }},
+         "longitude": {{ settings.seo_longitude | default: -80.1373 }}
+       },
       "contactPoint": [
         {
           "@type": "ContactPoint",

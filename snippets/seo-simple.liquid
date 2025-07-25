@@ -1,0 +1,114 @@
+{% comment %}
+  Simplified Advanced SEO for Marine Industry
+  Safe version that won't cause 404 errors
+{% endcomment %}
+
+<!-- Google Tag Manager -->
+{% if settings.google_tag_manager_id != blank %}
+<script>
+  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','{{ settings.google_tag_manager_id }}');
+</script>
+{% endif %}
+
+<!-- Google Analytics 4 -->
+{% if settings.google_analytics_id != blank %}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ settings.google_analytics_id }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ settings.google_analytics_id }}');
+</script>
+{% endif %}
+
+<!-- Facebook Pixel -->
+{% if settings.facebook_pixel_id != blank %}
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '{{ settings.facebook_pixel_id }}');
+  fbq('track', 'PageView');
+</script>
+{% endif %}
+
+<!-- Enhanced Keywords Meta -->
+<meta name="keywords" content="{{ settings.seo_primary_keywords | default: 'luxury yachts for sale, boats for sale, yacht sales, marine vessels, superyachts, sailing yachts, motor yachts, yacht broker, boat dealer, yacht charter' }}">
+
+<!-- Enhanced Description -->
+{% unless page_description %}
+<meta name="description" content="{{ settings.seo_business_description | default: 'Premier luxury yacht and boat sales featuring the world's finest vessels. Expert yacht brokers, comprehensive marine services, and unparalleled customer service.' }}">
+{% endunless %}
+
+<!-- Geo-targeting -->
+<meta name="geo.region" content="US-FL">
+<meta name="geo.placename" content="{{ settings.seo_address_city | default: 'Fort Lauderdale' }}">
+
+<!-- Basic Organization Schema -->
+{% if settings.enable_rich_snippets %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{ settings.seo_business_name | default: shop.name }}",
+  "url": "{{ shop.url }}",
+  {% if settings.logo %}
+  "logo": "{{ settings.logo | image_url: width: 600 }}",
+  {% endif %}
+  "description": "{{ settings.seo_business_description | default: shop.description }}",
+  "telephone": "{{ settings.seo_phone_number | default: '+1-800-YACHTS' }}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{ settings.seo_address_street | default: 'Marina Mile' }}",
+    "addressLocality": "{{ settings.seo_address_city | default: 'Fort Lauderdale' }}",
+    "addressRegion": "{{ settings.seo_address_state | default: 'FL' }}",
+    "postalCode": "{{ settings.seo_address_zip | default: '33316' }}",
+    "addressCountry": "US"
+  }
+}
+</script>
+{% endif %}
+
+<!-- Website Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ shop.name }}",
+  "url": "{{ shop.url }}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ shop.url }}/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<!-- Performance Optimizations -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.shopify.com">
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+
+<!-- Yacht Industry Specific Meta -->
+<meta name="industry" content="Marine, Yachts, Boats">
+<meta name="robots" content="index, follow, max-image-preview:large">
+
+<!-- Enhanced Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="{{ shop.name }}">
+
+<!-- Enhanced Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+{% if settings.social_twitter_link != blank %}
+<meta name="twitter:site" content="{{ settings.social_twitter_link | split: 'twitter.com/' | last | prepend: '@' }}">
+{% endif %}
