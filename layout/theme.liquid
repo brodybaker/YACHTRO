@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="#1e3c72">
+    <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
 
     {%- if settings.favicon != blank -%}
@@ -17,18 +17,10 @@
     {%- endunless -%}
 
     <title>
-      {%- if request.page_type == 'index' -%}
-        {{ shop.name }} - Premier Luxury Yacht & Boat Sales | Superyachts, Motor Yachts & Sailing Yachts
-      {%- elsif request.page_type == 'product' -%}
-        {{ product.title }} - {{ product.vendor }} | {{ shop.name }} Yacht Sales
-      {%- elsif request.page_type == 'collection' -%}
-        {{ collection.title }} - Luxury {{ collection.title }} for Sale | {{ shop.name }}
-      {%- else -%}
-        {{ page_title }}
-        {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-        {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-        {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
-      {%- endif -%}
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
     </title>
 
     {% if page_description %}
@@ -36,33 +28,6 @@
     {% endif %}
 
     {% render 'meta-tags' %}
-    
-    <!-- Marine Industry SEO Enhancements -->
-    <meta name="keywords" content="luxury yachts for sale, boats for sale, yacht sales, marine vessels, superyachts, sailing yachts, motor yachts, yacht broker, boat dealer, yacht charter">
-    <meta name="geo.region" content="US-FL">
-    <meta name="geo.placename" content="Fort Lauderdale">
-    <meta name="industry" content="Marine, Yachts, Boats">
-    
-    <!-- Performance Optimizations -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <!-- Basic Yacht Business Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "{{ shop.name }}",
-      "url": "{{ shop.url }}",
-      "description": "Premier luxury yacht and boat sales featuring the world's finest vessels.",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Fort Lauderdale",
-        "addressRegion": "FL",
-        "addressCountry": "US"
-      }
-    }
-    </script>
 
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
@@ -292,8 +257,6 @@
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
-    <link rel="stylesheet" href="{{ 'yacht-seo-styles.css' | asset_url }}" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="{{ 'yacht-seo-styles.css' | asset_url }}"></noscript>
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
