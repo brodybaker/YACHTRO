@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+
+  <!-- Homepage -->
+  <url>
+    <loc>{{ shop.url }}</loc>
+    <lastmod>{{ 'now' | date: '%Y-%m-%d' }}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    {% if settings.logo %}
+    <image:image>
+      <image:loc>{{ settings.logo | image_url: width: 1200 }}</image:loc>
+      <image:title>{{ shop.name }} - Premier Yacht Sales</image:title>
+      <image:caption>{{ settings.seo_business_description | default: shop.description }}</image:caption>
+    </image:image>
+    {% endif %}
+  </url>
+
+  <!-- Collections (Yacht Categories) -->
+  {% for collection in collections %}
+    {% unless collection.handle == 'frontpage' %}
+    <url>
+      <loc>{{ shop.url }}{{ collection.url }}</loc>
+      <lastmod>{{ collection.updated_at | date: '%Y-%m-%d' }}</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+      {% if collection.featured_image %}
+      <image:image>
+        <image:loc>{{ collection.featured_image | image_url: width: 1200 }}</image:loc>
+        <image:title>{{ collection.title }} - {{ shop.name }}</image:title>
+        <image:caption>{{ collection.description | strip_html | truncate: 160 }}</image:caption>
+      </image:image>
+      {% endif %}
+    </url>
+    {% endunless %}
+  {% endfor %}
+
+  <!-- Products (Yachts) -->
+  {% for product in collections.all.products %}
+    <url>
+      <loc>{{ shop.url }}{{ product.url }}</loc>
+      <lastmod>{{ product.updated_at | date: '%Y-%m-%d' }}</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.7</priority>
+      
+      <!-- Product Images -->
+      {% for image in product.images limit: 5 %}
+      <image:image>
+        <image:loc>{{ image | image_url: width: 1200 }}</image:loc>
+        <image:title>{{ product.title }} - {{ product.vendor }} Yacht</image:title>
+        <image:caption>{{ product.description | strip_html | truncate: 160 }}</image:caption>
+      </image:image>
+      {% endfor %}
+    </url>
+  {% endfor %}
+
+  <!-- Pages -->
+  {% for page in pages %}
+    {% unless page.handle == 'frontpage' %}
+    <url>
+      <loc>{{ shop.url }}{{ page.url }}</loc>
+      <lastmod>{{ page.updated_at | date: '%Y-%m-%d' }}</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+    </url>
+    {% endunless %}
+  {% endfor %}
+
+  <!-- Blog Posts -->
+  {% for article in blog.articles %}
+    <url>
+      <loc>{{ shop.url }}{{ article.url }}</loc>
+      <lastmod>{{ article.updated_at | date: '%Y-%m-%d' }}</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+      {% if article.image %}
+      <image:image>
+        <image:loc>{{ article.image | image_url: width: 1200 }}</image:loc>
+        <image:title>{{ article.title }}</image:title>
+        <image:caption>{{ article.excerpt | strip_html | truncate: 160 }}</image:caption>
+      </image:image>
+      {% endif %}
+    </url>
+  {% endfor %}
+
+  <!-- Important Static Pages -->
+  <url>
+    <loc>{{ shop.url }}/pages/about</loc>
+    <lastmod>{{ 'now' | date: '%Y-%m-%d' }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>{{ shop.url }}/pages/contact</loc>
+    <lastmod>{{ 'now' | date: '%Y-%m-%d' }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>{{ shop.url }}/pages/yacht-brokerage</loc>
+    <lastmod>{{ 'now' | date: '%Y-%m-%d' }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>{{ shop.url }}/pages/yacht-financing</loc>
+    <lastmod>{{ 'now' | date: '%Y-%m-%d' }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>{{ shop.url }}/pages/yacht-management</loc>
+    <lastmod>{{ 'now' | date: '%Y-%m-%d' }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Search Page -->
+  <url>
+    <loc>{{ shop.url }}/search</loc>
+    <lastmod>{{ 'now' | date: '%Y-%m-%d' }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <!-- Policy Pages -->
+  <url>
+    <loc>{{ shop.url }}/policies/privacy-policy</loc>
+    <lastmod>{{ 'now' | date: '%Y-%m-%d' }}</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>{{ shop.url }}/policies/terms-of-service</loc>
+    <lastmod>{{ 'now' | date: '%Y-%m-%d' }}</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>

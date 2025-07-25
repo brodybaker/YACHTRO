@@ -1,0 +1,712 @@
+/* 
+ * Yacht Sales SEO-Optimized Styles
+ * Designed for luxury yacht dealerships with performance and accessibility in mind
+ */
+
+/* CSS Custom Properties for Yacht Theme */
+:root {
+  /* Colors - Nautical & Luxury Theme */
+  --yacht-navy: #1e3c72;
+  --yacht-blue: #2a5298;
+  --yacht-gold: #d4af37;
+  --yacht-white: #ffffff;
+  --yacht-light-gray: #f8f9fa;
+  --yacht-dark-gray: #343a40;
+  --yacht-accent: #0077be;
+  
+  /* Typography */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  --spacing-xxl: 4rem;
+  
+  /* Breakpoints */
+  --mobile: 768px;
+  --tablet: 1024px;
+  --desktop: 1200px;
+  
+  /* Shadows */
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadow-heavy: 0 8px 32px rgba(0, 0, 0, 0.2);
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-primary);
+  line-height: 1.6;
+  color: var(--yacht-dark-gray);
+  margin: 0;
+  padding: 0;
+  background-color: var(--yacht-white);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: var(--spacing-md);
+  color: var(--yacht-navy);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: var(--spacing-lg);
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+p {
+  margin-bottom: var(--spacing-md);
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+/* Container */
+.container {
+  max-width: var(--desktop);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--spacing-sm);
+  }
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition-medium);
+  text-align: center;
+  min-width: 180px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--yacht-navy), var(--yacht-blue));
+  color: var(--yacht-white);
+  box-shadow: var(--shadow-medium);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-heavy);
+}
+
+.btn-secondary {
+  background: var(--yacht-white);
+  color: var(--yacht-navy);
+  border-color: var(--yacht-navy);
+}
+
+.btn-secondary:hover {
+  background: var(--yacht-navy);
+  color: var(--yacht-white);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--yacht-navy);
+  border-color: var(--yacht-navy);
+}
+
+.btn-outline:hover {
+  background: var(--yacht-navy);
+  color: var(--yacht-white);
+}
+
+/* Hero Section */
+.hero-yacht-sales {
+  background: linear-gradient(135deg, var(--yacht-navy) 0%, var(--yacht-blue) 100%);
+  color: var(--yacht-white);
+  padding: var(--spacing-xxl) 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-yacht-sales::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="yacht-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23yacht-pattern)"/></svg>');
+  opacity: 0.3;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.hero-title {
+  color: var(--yacht-white);
+  margin-bottom: var(--spacing-lg);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-xl);
+  opacity: 0.9;
+}
+
+.hero-cta {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-xl);
+}
+
+.trust-signals {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-xl);
+  flex-wrap: wrap;
+  margin-top: var(--spacing-xl);
+}
+
+.trust-item {
+  text-align: center;
+}
+
+.trust-item strong {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--yacht-gold);
+  margin-bottom: var(--spacing-xs);
+}
+
+.trust-item span {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Section Styling */
+section {
+  padding: var(--spacing-xxl) 0;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 1.125rem;
+  color: #666;
+  margin-bottom: var(--spacing-xl);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Category Grid */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.category-card {
+  background: var(--yacht-white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-light);
+  transition: all var(--transition-medium);
+}
+
+.category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-heavy);
+}
+
+.category-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.category-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.category-content {
+  padding: var(--spacing-lg);
+}
+
+.category-title {
+  margin-bottom: var(--spacing-sm);
+  color: var(--yacht-navy);
+}
+
+.category-description {
+  color: #666;
+  margin-bottom: var(--spacing-md);
+}
+
+.category-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--yacht-accent);
+  font-weight: 600;
+}
+
+/* Yacht Grid */
+.yacht-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.yacht-card {
+  background: var(--yacht-white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-light);
+  transition: all var(--transition-medium);
+}
+
+.yacht-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-medium);
+}
+
+.yacht-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.yacht-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.yacht-image img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.yacht-card:hover .yacht-image img {
+  transform: scale(1.05);
+}
+
+.sale-badge {
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  background: var(--yacht-gold);
+  color: var(--yacht-white);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.yacht-content {
+  padding: var(--spacing-lg);
+}
+
+.yacht-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-sm);
+}
+
+.yacht-title {
+  margin: 0;
+  color: var(--yacht-navy);
+  flex: 1;
+}
+
+.yacht-brand {
+  color: var(--yacht-accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.yacht-description {
+  color: #666;
+  margin-bottom: var(--spacing-md);
+  font-size: 1rem;
+}
+
+.yacht-specs {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.spec {
+  background: var(--yacht-light-gray);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--yacht-navy);
+  font-weight: 500;
+}
+
+.yacht-pricing {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.current-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--yacht-navy);
+}
+
+/* Services Grid */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.service-card {
+  text-align: center;
+  padding: var(--spacing-xl);
+  background: var(--yacht-white);
+  border-radius: 12px;
+  box-shadow: var(--shadow-light);
+  transition: all var(--transition-medium);
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-medium);
+}
+
+.service-icon {
+  color: var(--yacht-accent);
+  margin-bottom: var(--spacing-md);
+}
+
+.service-title {
+  color: var(--yacht-navy);
+  margin-bottom: var(--spacing-md);
+}
+
+.service-description {
+  color: #666;
+  font-size: 1rem;
+}
+
+/* Testimonials */
+.testimonials {
+  background: var(--yacht-light-gray);
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.testimonial {
+  background: var(--yacht-white);
+  padding: var(--spacing-xl);
+  border-radius: 12px;
+  box-shadow: var(--shadow-light);
+  margin: 0;
+  position: relative;
+}
+
+.testimonial::before {
+  content: '"';
+  position: absolute;
+  top: -10px;
+  left: var(--spacing-lg);
+  font-size: 4rem;
+  color: var(--yacht-accent);
+  font-family: Georgia, serif;
+}
+
+.testimonial-content p {
+  font-style: italic;
+  font-size: 1.125rem;
+  margin-bottom: var(--spacing-lg);
+  color: var(--yacht-dark-gray);
+}
+
+.testimonial-author {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.testimonial-author cite {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--yacht-navy);
+}
+
+.author-title {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.rating {
+  color: var(--yacht-gold);
+  font-size: 1.2rem;
+}
+
+/* FAQ Section */
+.faq-grid {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: var(--yacht-white);
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: var(--spacing-md);
+  overflow: hidden;
+}
+
+.faq-question {
+  padding: var(--spacing-lg);
+  background: var(--yacht-light-gray);
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--yacht-navy);
+  font-size: 1.125rem;
+  transition: background-color var(--transition-fast);
+}
+
+.faq-question:hover {
+  background: #e9ecef;
+}
+
+.faq-answer {
+  padding: var(--spacing-lg);
+  border-top: 1px solid #e0e0e0;
+}
+
+.faq-answer p {
+  margin: 0;
+  color: #666;
+}
+
+/* Contact CTA */
+.contact-cta {
+  background: linear-gradient(135deg, var(--yacht-navy), var(--yacht-blue));
+  color: var(--yacht-white);
+  text-align: center;
+}
+
+.cta-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  color: var(--yacht-white);
+  margin-bottom: var(--spacing-md);
+}
+
+.cta-subtitle {
+  font-size: 1.125rem;
+  margin-bottom: var(--spacing-xl);
+  opacity: 0.9;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Section CTA */
+.section-cta {
+  text-align: center;
+  margin-top: var(--spacing-xl);
+}
+
+/* Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus styles for accessibility */
+a:focus,
+button:focus,
+details:focus,
+summary:focus {
+  outline: 2px solid var(--yacht-accent);
+  outline-offset: 2px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-cta {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .trust-signals {
+    gap: var(--spacing-md);
+  }
+  
+  .trust-item strong {
+    font-size: 1.5rem;
+  }
+  
+  .category-grid,
+  .yacht-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .yacht-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --spacing-xxl: 2rem;
+    --spacing-xl: 1.5rem;
+  }
+  
+  .btn {
+    min-width: auto;
+    width: 100%;
+    max-width: 280px;
+  }
+  
+  .yacht-specs {
+    justify-content: center;
+  }
+}
+
+/* Performance Optimizations */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Lazy loading support */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity var(--transition-medium);
+}
+
+img[loading="lazy"].loaded {
+  opacity: 1;
+}
+
+/* Print styles */
+@media print {
+  .hero-yacht-sales,
+  .contact-cta {
+    background: var(--yacht-white) !important;
+    color: var(--yacht-dark-gray) !important;
+  }
+  
+  .btn {
+    border: 1px solid var(--yacht-dark-gray) !important;
+    background: transparent !important;
+    color: var(--yacht-dark-gray) !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --yacht-navy: #000000;
+    --yacht-blue: #000080;
+    --yacht-dark-gray: #000000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

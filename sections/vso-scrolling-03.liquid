@@ -1,0 +1,805 @@
+{% comment %}
+WARNING: UNAUTHORIZED MODIFICATION PROHIBITED
+This code is proprietary property of Versio Studio. Any unauthorized tampering, 
+alteration, or distribution of this file is strictly forbidden and will be prosecuted to the maximum extent permitted by law.
+All modifications are logged.
+
+If you require assistance or have questions regarding this code, please contact support@versio.studio.
+{% endcomment %}
+
+{%- liquid 
+  assign heading = section.settings.heading
+  assign description = section.settings.description
+  assign headline_width = section.settings.headline_width
+  assign headline_font_size_desktop = section.settings.headline_font_size_desktop
+  assign headline_font_size_mobile = section.settings.headline_font_size_mobile
+  assign description_font_size_desktop = section.settings.description_font_size_desktop
+  assign description_font_size_mobile = section.settings.description_font_size_mobile
+  assign description_top_margin_desktop = section.settings.description_top_margin_desktop
+  assign mobile_text_align_center = section.settings.mobile_text_align_center
+  assign mobile_headline_margin = section.settings.mobile_headline_margin
+  assign mobile_description_margin = section.settings.mobile_description_margin
+
+  assign slider_width = section.settings.slider_width
+  assign speed = section.settings.speed
+  assign image_height = section.settings.image_height
+  assign image_gap = section.settings.image_gap
+  assign pause_on_hover = section.settings.pause_on_hover
+  assign enable_lazy_loading = section.settings.enable_lazy_loading
+
+  assign inner_background_color = section.settings.inner_background_color
+  assign text_logos_gap = section.settings.text_logos_gap
+  assign border_radius = section.settings.border_radius
+  assign inner_padding = section.settings.inner_padding
+  assign inner_padding_mobile = section.settings.inner_padding_mobile
+  assign mobile_sides_padding = section.settings.mobile_sides_padding
+  assign mobile_sides_margin = section.settings.mobile_sides_margin
+
+  assign background_color = section.settings.background_color
+  assign background_gradient_color = section.settings.background_gradient_color
+  assign foreground_color = section.settings.foreground_color
+  assign background_image = section.settings.background_image
+  assign enable_fade_effect = section.settings.enable_fade_effect
+
+  assign section_full_width = section.settings.section_full_width
+  assign section_max_width = section.settings.section_max_width
+  assign content_full_width = section.settings.content_full_width
+  assign content_max_width = section.settings.content_max_width
+
+  assign padding_desktop = section.settings.padding_desktop
+  assign padding_tablet_mobile = section.settings.padding_tablet_mobile
+  assign margin_desktop = section.settings.margin_desktop
+  assign margin_bottom_desktop = section.settings.margin_bottom_desktop
+  assign margin_tablet_mobile = section.settings.margin_tablet_mobile
+  assign margin_bottom_tablet_mobile = section.settings.margin_bottom_tablet_mobile
+-%}
+
+{%- style -%}
+  .section-{{ section.id }} {
+    --versio-section-background-color: {{ background_color.red }},{{ background_color.green }},{{ background_color.blue }};
+    --inner-section-bg-color: {{ inner_background_color }};
+    --section-border-radius: {{ border_radius }}px;
+    --inner-section-padding: {{ inner_padding }}px;
+    --inner-section-padding-mobile: {{ section.settings.inner_padding_mobile }}px;
+    --mobile-sides-padding: {{ section.settings.mobile_sides_padding }}px;
+    --mobile-sides-margin: {{ section.settings.mobile_sides_margin }}px;
+    --text-logos-gap: {{ text_logos_gap }}px;
+    --headline-width: {{ headline_width }}%;
+    --slider-width: {{ slider_width }}%;
+    --mobile-text-alignment: {% if mobile_text_align_center %}center{% else %}left{% endif %};
+    --mobile-headline-bottom-margin: {{ mobile_headline_margin }}px;
+    --mobile-description-bottom-margin: {{ mobile_description_margin }}px;
+    --fade-color: {{ inner_background_color }};
+    --show-fade-effect: {% if enable_fade_effect %}block{% else %}none{% endif %};
+    {% if background_gradient_color != blank %}
+      --versio-section-gradient-background-color: {{ background_gradient_color }};
+    {% else %}
+      --versio-section-gradient-background-color: {{ background_color }};
+    {% endif %}
+    --versio-section-foreground-color: {{ foreground_color.red }},{{ foreground_color.green }},{{ foreground_color.blue }};
+  }
+
+  .section-{{ section.id }} .versio-section *,
+  .section-{{ section.id }} .versio-section *::after,
+  .section-{{ section.id }} .versio-section *::before {
+    box-sizing: border-box;
+  }
+
+  .section-{{ section.id }} .versio-section_container,
+  .section-{{ section.id }} .versio-section_content {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section-{{ section.id }} .versio-section_container {
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: unset !important;
+  }
+
+  .section-{{ section.id }} .versio-section_align-center {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .section-{{ section.id }} .versio-section-header {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+
+  .section-{{ section.id }} .versio-section-header > *,
+  .section-{{ section.id }} .versio-section-header .versio-section-header_title {
+    margin: 0;
+    padding: 0;
+  }
+
+  .section-{{ section.id }} .versio-section-header_description {
+    max-width: 900px;
+  }
+
+  .section-{{ section.id }} .versio-section-header_description * {
+    margin: 0 0 10px;
+    padding: 0;
+  }
+
+  .section-{{ section.id }} .versio-section-header_description *:last-child {
+    margin-bottom: 0;
+  }
+
+  .section-{{ section.id }} .versio-scrolling-logos-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    padding: var(--inner-section-padding);
+    border-radius: var(--section-border-radius);
+    background-color: var(--inner-section-bg-color);
+  }
+
+  .section-{{ section.id }} .versio-scrolling-logos-headline {
+    width: var(--headline-width);
+    padding-right: var(--text-logos-gap);
+  }
+
+  .section-{{ section.id }} .versio-scrolling-logos-slider {
+    width: var(--slider-width);
+    overflow: hidden;
+  }
+
+  .section-{{ section.id }} .versio-scrolling-logos > .marquee {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 1rem 0;
+    position: relative;
+  }
+
+  .section-{{ section.id }} .versio-scrolling-logos > .marquee::before,
+  .section-{{ section.id }} .versio-scrolling-logos > .marquee::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 10%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    display: var(--show-fade-effect);
+  }
+
+  .section-{{ section.id }} .versio-scrolling-logos > .marquee::before {
+    left: 0;
+    background: linear-gradient(to right, var(--fade-color), transparent);
+  }
+
+  .section-{{ section.id }} .versio-scrolling-logos > .marquee::after {
+    right: 0;
+    background: linear-gradient(to left, var(--fade-color), transparent);
+  }
+
+  @keyframes marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  .section-{{ section.id }} .versio-scrolling-logos > .marquee:hover > .marquee__item {
+    animation-play-state: {% if pause_on_hover %}paused{% else %}running{% endif %};
+  }
+
+  .section-{{ section.id }} .versio-scrolling-logos .marquee__item a,
+  .section-{{ section.id }} .versio-scrolling-logos .marquee__item p{
+    display: inline;
+  }
+
+  .section-{{ section.id }} .versio-scrolling-logos > .marquee > .marquee__item {
+    display: inline-block;
+    will-change: transform;
+    animation: marquee {{ speed }}s linear infinite;
+    display: inline-flex !important;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .section-{{ section.id }} .versio-scrolling-logos > .marquee > .marquee__item > .marquee__content{
+    display: inline-flex !important;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 {{ image_gap }}px;
+  }
+
+  .section-{{ section.id }} .versio-scrolling-logos > .marquee > .marquee__item > .marquee__content > .marquee-image-wrapper{
+    display: inline-flex !important;
+    flex-direction: row;
+    align-items: center;
+    height: {{ image_height }}px;
+    width: auto;
+  }
+
+  .section-{{ section.id }} .versio-scrolling-logos > .marquee > .marquee__item > .marquee__content > .marquee-image-wrapper > img{
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .section-{{ section.id }} .marquee-image-wrapper img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .section-{{ section.id }} .marquee-image-wrapper > a {
+    display: block;
+    height: 100%;
+  }
+
+  .section-{{ section.id }} .versio-scrolling-logos-headline > .versio-section-header_heading > h2 {
+    margin: 0;
+  }
+
+  .section-{{ section.id }} .versio-section-header_title {
+    font-size: {{ headline_font_size_desktop }}px;
+  }
+
+  .section-{{ section.id }} .versio-section-header_description {
+    font-size: {{ description_font_size_desktop }}px;
+    margin-bottom: 0;
+    margin-top: {{ description_top_margin_desktop }}px;
+  }
+
+  @media screen and (max-width: 991px) {
+    .section-{{ section.id }} .versio-scrolling-logos-container {
+      flex-direction: column;
+      padding: var(--inner-section-padding-mobile) var(--mobile-sides-padding);
+      width: calc(100% - (var(--mobile-sides-margin) * 2));
+      margin-left: var(--mobile-sides-margin);
+      margin-right: var(--mobile-sides-margin);
+    }
+
+    .section-{{ section.id }} .versio-scrolling-logos-headline,
+    .section-{{ section.id }} .versio-scrolling-logos-slider {
+      width: 100%;
+      padding-right: 0;
+    }
+
+    .section-{{ section.id }} .versio-scrolling-logos-headline {
+      text-align: var(--mobile-text-alignment);
+      margin-bottom: var(--mobile-description-bottom-margin);
+    }
+
+    .section-{{ section.id }} .versio-section-header_heading {
+      margin-bottom: var(--mobile-headline-bottom-margin);
+    }
+
+    .section-{{ section.id }} .versio-section-header_description {
+      margin-bottom: 0;
+    }
+  }
+
+  {% if background_color != blank %}
+    .section-{{ section.id }} > .versio-section_container {
+      background: rgb(var(--versio-section-background-color));
+      {% if background_gradient_color != blank %}
+        background: var(--versio-section-gradient-background-color);
+      {% endif %}
+    }
+
+    .section-{{ section.id }} .versio-section__foreground--color {
+      color: rgb(var(--versio-section-foreground-color));
+    }
+  {% endif %}
+
+  {% if background_image != blank %}
+    .section-{{ section.id }} > .versio-section_container {
+      background-image: url('{{ background_image | image_url }}');
+    }
+  {% endif %}
+
+  {% unless section_full_width %}
+    .section-{{ section.id }} > .versio-section_container {
+      max-width: {{ section_max_width }}px;
+    }
+  {% endunless %}
+
+  {% unless content_full_width %}
+    .section-{{ section.id }} > .versio-section_container > .versio-section_content {
+      max-width: {{ content_max_width }}px;
+    }
+  {% endunless %}
+
+  @media screen and (min-width: 1280px) {
+    .section-{{ section.id }} > .versio-section_container {
+      padding: {{ padding_desktop }}px 0;
+    }
+
+    .section-{{ section.id }} {
+      margin-top: {{ margin_desktop }}px;
+      margin-bottom: {{ margin_bottom_desktop }}px;
+    }
+  }
+
+  @media screen and (max-width: 1279px) {
+    .section-{{ section.id }} > .versio-section_container {
+      padding: {{ padding_tablet_mobile }}px 0;
+    }
+
+    .section-{{ section.id }} {
+      margin-top: {{ margin_tablet_mobile }}px;
+      margin-bottom: {{ margin_bottom_tablet_mobile }}px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .section-{{ section.id }} .versio-section-header_title {
+      font-size: {{ headline_font_size_mobile }}px;
+    }
+
+    .section-{{ section.id }} .versio-section-header_description {
+      font-size: {{ description_font_size_mobile }}px;
+    }
+  }
+
+  .vso-node {
+    display: none;
+  }
+
+  .vso-node--v2 {
+    display: block;
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }} vso-node">
+  <div class="versio-section_container color-{{ section.settings.color_scheme }} gradient">
+    <div class="versio-section_content">
+      <div class="versio-scrolling-logos-container">
+        <div class="versio-scrolling-logos-headline">
+          {% if heading != blank %}
+            <div class="versio-section-header_heading">
+              <h2 class="versio-section-header_title versio-section__foreground--color">{{ heading }}</h2>
+            </div>
+          {% endif %}
+
+          {% if description != blank %}
+            <p class="versio-section-header_description versio-section__foreground--color">{{ description }}</p>
+          {% endif %}
+        </div>
+
+        <div class="versio-scrolling-logos-slider">
+          <div class="versio-scrolling-logos" style="--image-height: {{ image_height }}px; --image-gap: {{ image_gap }}px; --speed_marquee: {{ speed }}s; --pause_on_hover: {% if pause_on_hover %}paused{% else %}running{% endif %}">
+            <div class="marquee">
+              {% capture marquee_comp %}
+              <div class="marquee__item">
+                {% for i in (1..6) %}
+                  {% for block in section.blocks %}
+                    {% if block.settings.image != blank %}
+                      <div class="marquee__content">
+                        <div class="marquee-image-wrapper">
+                          {% if block.settings.link != blank %}
+                            <a href="{{ block.settings.link }}" class="versio-logo-link">
+                              {{ block.settings.image | image_url: height: 200 | image_tag: sizes: '100vw', widths: '375', loading: enable_lazy_loading | default: 'lazy', alt: shop.name }}
+                            </a>
+                          {% else %}
+                              {{ block.settings.image | image_url: height: 200 | image_tag: sizes: '100vw', widths: '375', loading: enable_lazy_loading | default: 'lazy', alt: shop.name }}
+                          {% endif %}
+                        </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                {% endfor %}
+              </div>
+              {% endcapture %}
+              {{ marquee_comp }}
+              {{ marquee_comp }}
+              {{ marquee_comp }}
+              {{ marquee_comp }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "VSO - Scrolling 03",
+  "class": "section versio-section",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Headline content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "In The Press"
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_text_align_center",
+      "label": "Center text on mobile",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "headline_width",
+      "label": "Headline width",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "headline_font_size_desktop",
+      "label": "Headline font size (desktop)",
+      "min": 18,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "headline_font_size_mobile",
+      "label": "Headline font size (mobile)",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "inline_richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "Celebrated by leading publications around the globe."
+    },
+    {
+      "type": "range",
+      "id": "description_font_size_desktop",
+      "label": "Description font size (desktop)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "description_font_size_mobile",
+      "label": "Description font size (mobile)",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "description_top_margin_desktop",
+      "label": "Gap between headline and description",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Logo Scrolling Settings"
+    },
+    {
+      "type": "range",
+      "id": "slider_width",
+      "label": "Slider width",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 90
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_lazy_loading",
+      "label": "Enable lazy loading",
+      "default": true,
+      "info": "Improves page load performance but may delay initial image display"
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Speed (seconds)",
+      "min": 20,
+      "max": 200,
+      "step": 2,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "Logo height",
+      "default": 60,
+      "min": 40,
+      "max": 240,
+      "step": 2
+    },
+    {
+      "type": "range",
+      "id": "image_gap",
+      "label": "Logo gap",
+      "default": 40,
+      "min": 20,
+      "max": 200,
+      "step": 2
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_fade_effect",
+      "label": "Enable fade effect on sides",
+      "default": true,
+      "info": "Adds a fading effect when logos scroll in and out"
+    },
+    {
+      "type": "header",
+      "content": "Inner Section Styling"
+    },
+    {
+      "type": "color",
+      "id": "inner_background_color", 
+      "label": "Inner section background",
+      "default": "#F7F7F7"
+    },
+    {
+      "type": "range",
+      "id": "text_logos_gap",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap between text and logos",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "inner_padding",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Inner padding – desktop",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "inner_padding_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Inner padding – mobile",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mobile_sides_padding",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Side padding – mobile",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "mobile_sides_margin",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Side margin – mobile",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Section layout"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "checkbox",
+      "id": "section_full_width",
+      "label": "Section full width",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "section_max_width",
+      "min": 1200,
+      "max": 1900,
+      "step": 20,
+      "unit": "px",
+      "label": "Section max width",
+      "default": 1600
+    },
+    {
+      "type": "checkbox",
+      "id": "content_full_width",
+      "label": "Content full width",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 1200,
+      "max": 1900,
+      "step": 20,
+      "unit": "px",
+      "label": "Content max width",
+      "default": 1440
+    },
+    {
+      "type": "range",
+      "id": "padding_desktop",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding desktop",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_tablet_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding tablet, mobile",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "margin_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin desktop",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin bottom desktop",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_tablet_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin tablet, mobile",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_tablet_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin bottom tablet, mobile",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Section color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient_color",
+      "label": "Background gradient"
+    },
+    {
+      "type": "color",
+      "id": "foreground_color",
+      "label": "Foreground",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Layout"
+    },
+    {
+      "type": "range",
+      "id": "mobile_headline_margin",
+      "label": "Headline bottom margin (mobile)",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "mobile_description_margin",
+      "label": "Description bottom margin (mobile)",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 25
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Logo link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "VSO - Scrolling 03",
+      "blocks": [
+        {
+          "type": "item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

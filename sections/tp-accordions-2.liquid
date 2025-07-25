@@ -1,0 +1,759 @@
+{% comment %}
+{
+  "name": "Accordions 2",
+  "version": "1.0.0",
+  "url": "https://themepack.co/section/accordions-2",
+  "author": "Themepack",
+  "license": "MIT"
+}
+{% endcomment %}
+
+{%- liquid
+  assign heading_tag = 'h2'
+  if section.index0 == 0
+    assign heading_tag = 'h1'
+  endif
+-%}
+
+{%- capture html_id -%}
+  {%- if section.settings.html_id != blank -%}
+    id="{{ section.settings.html_id | handleize }}"
+  {%- endif -%}
+{%- endcapture -%}
+
+{% stylesheet %}
+  .tp-accordions-2 * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .tp-accordions-2 {
+    background-color: var(--tp-background, #000000);
+  }
+
+  .tp-accordions-2 a { color: inherit; }
+
+  .tp-accordions-2 .tp__container {
+    max-width: calc(var(--tp-section-width) + 40px);
+    padding-block: var(--tp-padding-block, 30px);
+    gap: var(--tp-container-gap, 40px);
+    width: 100%;
+    padding-inline: 20px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tp-accordions-2 .tp__section-heading {
+    font-weight: var(--tp-section-heading-weight, 600);
+    font-size: var(--tp-section-heading-size , 32px);
+    text-align: var(--tp-heading-alignment, left);
+    color: var(--tp-section-heading-color, #FFFFFF);
+    flex: 1 0 100%;
+    width: 100%;
+  }
+
+  .tp-accordions-2 .tp__content {
+    gap: var(--tp-accordions-gap, 20px);
+    flex-direction: column;
+    width: 100%;
+    flex: 1 0 100%;
+    display: flex;
+  }
+
+  .tp-accordions-2 .tp__accordion-item {
+    border-bottom: var(--tp-accordion-border, 1px solid #CCCCCC);
+    padding-block: var(--tp-accordion-item-padding-block, 15px);
+    background-color: var(--tp-accordion-background-color, #000000);
+    transition: height 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    gap: 10px;
+  }
+
+  .tp-accordions-2 .tp__accordion-item:last-child {
+    border-bottom: none;
+  }
+
+  .tp-accordions-2 .tp__accordion-button {
+    font-weight: var(--tp-accordion-heading-weight, 400);
+    font-size: var(--tp-accordion-heading-size, 18px);
+    color: var(--tp-accordion-heading-color, #FFFFFF);
+    justify-content: space-between;
+    background-color: transparent;
+    font-family: inherit;
+    outline: none;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    gap: 20px;
+  }
+
+  .tp-accordions-2 .tp__accordion-icon {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .tp-accordions-2 .tp__accordion-button[aria-expanded="true"] .tp__accordion-icon--plus path:first-child {
+    opacity: 0;
+  }
+
+  .tp-accordions-2 .tp__accordion-button[aria-expanded="true"] .tp__accordion-icon:not(.tp__accordion-icon--plus) {
+    transform: rotate(180deg);
+  }
+
+  .tp-accordions-2 .tp__accordion-content {
+    font-weight: var(--tp-accordion-description-weight, 400);
+    font-size: var(--tp-accordion-description-size, 18px);
+    color: var(--tp-accordion-description-color, #FFFFFF);
+    width: 100%;
+    height: 0;
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+    overflow: hidden;
+    transition: height 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .tp-accordions-2 .tp__accordion-content[aria-hidden="false"] {
+    transform: scaleY(1);
+    height: auto;
+    opacity: 1;
+  }
+
+  .tp-accordions-2 .tp__accordion-content-inner {
+    padding-block: var(--tp-accordion-description-padding-block, 12px);
+    font-weight: var(--tp-accordion-description-weight, 400);
+  }
+
+  @media (min-width: 768px) {
+    .tp-accordions-2 .tp__container {
+      flex-direction: row;
+    }
+
+    .tp-accordions-2 .tp__section-heading {
+      flex: 1 0 var(--tp-heading-width, 35%);
+    }
+
+    .tp-accordions-2 .tp__content {
+      flex: 1 0 var(--tp-content-width);
+    }
+  }
+{% endstylesheet %}
+
+<style>
+  #tp-{{ section.id }} {
+    --tp-padding-block: {{ section.settings.mobile_top_padding }}px {{ section.settings.mobile_bottom_padding }}px;
+    --tp-background: {{ section.settings.background_gradient | default: section.settings.background_color }};
+    --tp-section-width: {{ section.settings.section_width }}px;
+    --tp-container-gap: {{ section.settings.mobile_container_gap }}px;
+    --tp-heading-width: {{ section.settings.heading_width }}%;
+    --tp-heading-alignment: {{ section.settings.heading_alignment }};
+    --tp-section-heading-size: {{ section.settings.mobile_heading_text_size }}px;
+    --tp-section-heading-weight: {{ section.settings.heading_text_weight }};
+    --tp-section-heading-color: {{ section.settings.heading_color }};
+    --tp-accordion-item-padding-block: {{ section.settings.accordion_padding_block }}px;
+    --tp-accordions-gap: {{ section.settings.accordions_gap }}px;
+    --tp-accordion-heading-size: {{ section.settings.mobile_accordion_heading_text_size }}px;
+    --tp-accordion-heading-weight: {{ section.settings.accordion_heading_text_weight }};
+    --tp-accordion-heading-color: {{ section.settings.accordion_heading_color }};
+    --tp-accordion-description-size: {{ section.settings.mobile_accordion_description_text_size }}px;
+    --tp-accordion-description-weight: {{ section.settings.accordion_description_text_weight }};
+    --tp-accordion-description-color: {{ section.settings.accordion_description_color }};
+    --tp-accordion-description-padding-block: {{ section.settings.description_top_space }}px;
+    --tp-accordion-background-color: {{ section.settings.accordion_background_color }};
+    --tp-accordion-border: {{ section.settings.accordion_border }}px solid {{ section.settings.accordion_border_color }};
+    --tp-content-width: calc(100% - var(--tp-heading-width)) - var(--tp-container-gap);
+
+    background: var(--tp-background, #000000);
+  }
+  @media (min-width: 768px) {
+    #tp-{{ section.id }} {
+      --tp-padding-block: {{ section.settings.desktop_top_padding }}px {{ section.settings.desktop_bottom_padding }}px;
+      --tp-container-gap: {{ section.settings.desktop_container_gap }}px;
+      --tp-section-heading-size: {{ section.settings.desktop_heading_text_size }}px;
+      --tp-accordion-heading-size: {{ section.settings.desktop_accordion_heading_text_size }}px;
+      --tp-accordion-description-size: {{ section.settings.desktop_accordion_description_text_size }}px;
+    }
+  }
+</style>
+
+<div id="tp-{{ section.id }}" class="tp-{{ section.id }}">
+  <div {{ html_id }} class="{{ 'tp__container' | append: section.settings.html_class | strip }}">
+    {%- if section.settings.heading != blank -%}
+      <{{ heading_tag }} class="tp__section-heading">{{ section.settings.heading }}</{{ heading_tag }}>
+    {%- endif -%}
+
+    <div class="tp__content">
+      {%- for block in section.blocks -%}
+        {% liquid
+          assign current_block_open_by_default = block.settings.open_by_default
+          if forloop.index > 1
+            assign previous_block_index = forloop.index | minus: 1
+            assign previous_block_open_by_default = section.blocks[previous_block_index].settings.open_by_default
+            if previous_block_open_by_default == true and current_block_open_by_default == true
+              assign current_block_open_by_default = false
+            endif
+          endif
+        %}
+
+        {% if block.settings.heading != blank and block.settings.content != blank %}
+          <div class="tp__accordion-item">
+            {%- if block.settings.icon != blank -%}
+              {{ block.settings.icon | image_url: width: 24 | image_tag: loading: 'lazy' }}
+            {%- endif -%}
+        
+            <div class="tp__accordion-content-wrapper">
+              <button class="tp__accordion-button" type="button" aria-expanded="{{ current_block_open_by_default }}">
+                {{ block.settings.heading }}
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="tp__accordion-icon tp__accordion-icon--plus">
+                  <path d="M12 1V23" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M23 12H1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+
+              <div aria-hidden="{% if current_block_open_by_default == true %}false{% else %}true{% endif %}" class="tp__accordion-content">
+                <div class="tp__accordion-content-inner">
+                  {{ block.settings.content }}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    document.addEventListener('DOMContentLoaded', () => {
+      const tpAccordionsTwo = document.querySelectorAll('#tp-{{ section.id }} .tp__accordion-button');
+    
+      if (tpAccordionsTwo.length) {
+        tpAccordionsTwo.forEach(button => {
+          if (button.getAttribute('aria-expanded') === 'true') {
+            const content = button.nextElementSibling;
+            button.setAttribute('aria-expanded', "true");
+            content.setAttribute('aria-hidden', "false");
+            content.style.display = "block";
+            content.style.height = content.scrollHeight + "px";
+            content.style.opacity = "1";
+            content.style.transform = "scaleY(1)";
+            return false;
+          }
+        });
+      }
+
+      tpAccordionsTwo.forEach(button => {
+        button.addEventListener('click', function (event) {
+          const $this = this;
+          const content = $this.nextElementSibling;
+          const parent = $this.closest('.tp__accordion-item');
+          const isOpen = $this.getAttribute('aria-expanded') === "true";
+
+          Array.from(tpAccordionsTwo).forEach(button => {
+            if (button !== $this) {
+              const content = button.nextElementSibling;
+              const parent = button.closest('.tp__accordion-item');
+              content.style.height = "0px";
+              content.style.opacity = "0";
+              content.setAttribute('aria-hidden', "true");
+              button.setAttribute('aria-expanded', "false");
+              parent.classList.remove('active');
+            }
+          });
+
+          if (isOpen) {
+            content.style.height = "0px";
+            content.style.opacity = "0";
+            this.setAttribute('aria-expanded', "false");
+            content.setAttribute('aria-hidden', "true");
+            parent.classList.remove('active');
+          } else {
+            content.style.display = "block";
+            setTimeout(() => {
+              content.style.height = content.scrollHeight + "px";
+              content.style.opacity = "1";
+              this.setAttribute('aria-expanded', "true");
+              content.setAttribute('aria-hidden', "false");
+              parent.classList.add('active');
+            }, 10);
+          }
+        });
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+  {
+    "name": "TP - Accordions 2",
+    "class": "tp-accordions-2",
+    "tag": "section",
+    "disabled_on": {
+      "groups": [
+        "header"
+      ]
+    },
+    "settings": [
+      {
+        "type": "header",
+        "content": "Section information",
+        "info": "Codename: tp-accordions-2. For detailed documentation and best practices on using this section, please visit the [Section Guide](https://themepack.co/docs/sections/accordions-2)."
+      },
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "inline_richtext",
+        "id": "heading",
+        "label": "Heading"
+      },
+      {
+        "type": "number",
+        "id": "desktop_heading_text_size",
+        "label": "Desktop: heading text size (px)",
+        "default": 48
+      },
+      {
+        "type": "number",
+        "id": "mobile_heading_text_size",
+        "label": "Mobile: heading text size (px)",
+        "default": 32
+      },
+      {
+        "type": "select",
+        "id": "heading_text_weight",
+        "label": "Heading text weight",
+        "options": [
+          {
+            "value": "100",
+            "label": "Thin"
+          },
+          {
+            "value": "200",
+            "label": "Extra Light"
+          },
+          {
+            "value": "300",
+            "label": "Light"
+          },
+          {
+            "value": "400",
+            "label": "Regular"
+          },
+          {
+            "value": "500",
+            "label": "Medium"
+          },
+          {
+            "value": "600",
+            "label": "Semi Bold"
+          },
+          {
+            "value": "700",
+            "label": "Bold"
+          },
+          {
+            "value": "800",
+            "label": "Extra Bold"
+          },
+          {
+            "value": "900",
+            "label": "Black"
+          }
+        ],
+        "default": "500"
+      },
+      {
+        "type": "range",
+        "id": "heading_width",
+        "label": "Heading width (%)",
+        "min": 10,
+        "max": 50,
+        "step": 1,
+        "default": 35,
+        "unit": "%"
+      },
+      {
+        "type": "text_alignment",
+        "id": "heading_alignment",
+        "label": "Heading alignment",
+        "default": "left"
+      },
+      {
+        "type": "header",
+        "content": "Design"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background color",
+        "default": "#000000"
+      },
+      {
+        "type": "color_background",
+        "id": "background_gradient",
+        "label": "Background gradient",
+        "info": "If set, overrides the background color."
+      },
+      {
+        "type": "color",
+        "id": "heading_color",
+        "label": "Heading color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "accordion_border_color",
+        "label": "Accordion border color",
+        "default": "#ccc"
+      },
+      {
+        "type": "color",
+        "id": "accordion_background_color",
+        "label": "Accordion background color",
+        "default": "transparent"
+      },
+      {
+        "type": "color",
+        "id": "accordion_heading_color",
+        "label": "Accordion heading color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "accordion_description_color",
+        "label": "Accordion description color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "Accordion"
+      },
+      {
+        "type": "range",
+        "id": "accordions_gap",
+        "label": "Gap",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "default": 20
+      },
+      {
+        "type": "number",
+        "id": "desktop_accordion_heading_text_size",
+        "label": "Desktop: heading text size (px)",
+        "default": 18
+      },
+      {
+        "type": "number",
+        "id": "mobile_accordion_heading_text_size",
+        "label": "Mobile: heading text size (px)",
+        "default": 16
+      },
+      {
+        "type": "select",
+        "id": "accordion_heading_text_weight",
+        "label": "Heading text weight",
+        "options": [
+          {
+            "value": "100",
+            "label": "Thin"
+          },
+          {
+            "value": "200",
+            "label": "Extra Light"
+          },
+          {
+            "value": "300",
+            "label": "Light"
+          },
+          {
+            "value": "400",
+            "label": "Regular"
+          },
+          {
+            "value": "500",
+            "label": "Medium"
+          },
+          {
+            "value": "600",
+            "label": "Semi Bold"
+          },
+          {
+            "value": "700",
+            "label": "Bold"
+          },
+          {
+            "value": "800",
+            "label": "Extra Bold"
+          },
+          {
+            "value": "900",
+            "label": "Black"
+          }
+        ],
+        "default": "400"
+      },
+      {
+        "type": "number",
+        "id": "desktop_accordion_description_text_size",
+        "label": "Desktop: description text size (px)",
+        "default": 18
+      },
+      {
+        "type": "number",
+        "id": "mobile_accordion_description_text_size",
+        "label": "Mobile: description text size (px)",
+        "default": 16
+      },
+      {
+        "type": "select",
+        "id": "accordion_description_text_weight",
+        "label": "Description text weight",
+        "options": [
+          {
+            "value": "100",
+            "label": "Thin"
+          },
+          {
+            "value": "200",
+            "label": "Extra Light"
+          },
+          {
+            "value": "300",
+            "label": "Light"
+          },
+          {
+            "value": "400",
+            "label": "Regular"
+          },
+          {
+            "value": "500",
+            "label": "Medium"
+          },
+          {
+            "value": "600",
+            "label": "Semi Bold"
+          },
+          {
+            "value": "700",
+            "label": "Bold"
+          },
+          {
+            "value": "800",
+            "label": "Extra Bold"
+          },
+          {
+            "value": "900",
+            "label": "Black"
+          }
+        ],
+        "default": "400"
+      },
+      {
+        "type": "range",
+        "id": "accordion_border",
+        "label": "Border width",
+        "min": 0,
+        "max": 5,
+        "step": 1,
+        "default": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "accordion_padding_block",
+        "label": "Padding (vertical)",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "default": 15
+      },
+      {
+        "type": "range",
+        "id": "description_top_space",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Description top padding",
+        "default": 12
+      },
+      {
+        "type": "header",
+        "content": "Section layout"
+      },
+      {
+        "type": "number",
+        "id": "section_width",
+        "label": "Section width (px)",
+        "default": 1440
+      },
+      {
+        "type": "range",
+        "id": "desktop_container_gap",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Desktop: gap between heading and accordions",
+        "default": 50
+      },
+      {
+        "type": "range",
+        "id": "mobile_container_gap",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Mobile: gap between heading and accordions",
+        "default": 30
+      },
+      {
+        "type": "header",
+        "content": "Section padding"
+      },
+      {
+        "type": "range",
+        "id": "desktop_top_padding",
+        "min": 0,
+        "max": 200,
+        "step": 5,
+        "unit": "px",
+        "label": "Desktop: top padding",
+        "default": 50
+      },
+      {
+        "type": "range",
+        "id": "desktop_bottom_padding",
+        "min": 0,
+        "max": 200,
+        "step": 5,
+        "unit": "px",
+        "label": "Desktop: bottom padding",
+        "default": 50
+      },
+      {
+        "type": "range",
+        "id": "mobile_top_padding",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "px",
+        "label": "Mobile: top padding",
+        "default": 30
+      },
+      {
+        "type": "range",
+        "id": "mobile_bottom_padding",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "px",
+        "label": "Mobile: bottom padding",
+        "default": 40
+      },
+      {
+        "type": "header",
+        "content": "Advanced"
+      },
+      {
+        "type": "text",
+        "id": "html_id",
+        "label": "HTML ID",
+        "info": "Unique identifier for linking directly to this section. Leave blank if unsure."
+      },
+      {
+        "type": "text",
+        "id": "html_class",
+        "label": "HTML Class",
+        "info": "Comma separated list of classes."
+      }
+    ],
+    "blocks": [
+      {
+        "type": "accordion",
+        "name": "Accordion",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "Icon"
+          },
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading"
+          },
+          {
+            "type": "inline_richtext",
+            "id": "content",
+            "label": "Content"
+          },
+          {
+            "type": "checkbox",
+            "id": "open_by_default",
+            "label": "Open by default",
+            "default": false,
+            "info": "If enabled, the accordion will be open by default when the page loads. Note: Only if the previous accordion is closed by default."
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "TP - Accordions 2",
+        "settings": {
+          "heading": "Find the answers to all of our most FAQs."
+        },
+        "blocks": [
+          {
+            "type": "accordion",
+            "settings": {
+              "heading": "Is free shipping available?",
+              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }
+          },
+          {
+            "type": "accordion",
+            "settings": {
+              "heading": "Is the product I'm looking for in stock and available?",
+              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }
+          },
+          {
+            "type": "accordion",
+            "settings": {
+              "heading": "Do you have any physical shop?",
+              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }
+          },
+          {
+            "type": "accordion",
+            "settings": {
+              "heading": "Can I redeem a coupon with you online?",
+              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }
+          },
+          {
+            "type": "accordion",
+            "settings": {
+              "heading": "What payment methods does Themeable accept?",
+              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,905 @@
+{% comment %}
+WARNING: UNAUTHORIZED MODIFICATION PROHIBITED
+This code is proprietary property of Versio Studio. Any unauthorized tampering, 
+alteration, or distribution of this file is strictly forbidden and will be prosecuted to the maximum extent permitted by law.
+All modifications are logged.
+
+If you require assistance or have questions regarding this code, please contact support@versio.studio.
+{% endcomment %}
+
+{%- liquid
+  assign section_width = 'page-width'
+  assign text_alignment = section.settings.content_alignment
+  assign blocks_alignment = section.settings.blocks_alignment
+  assign mobile_peek_percentage = section.settings.mobile_peek_percentage | default: 5
+  assign desktop_blocks_gap = section.settings.desktop_blocks_gap | default: 32
+  assign mobile_blocks_gap = section.settings.mobile_blocks_gap | default: 16
+  assign block_padding = section.settings.block_padding | default: 24
+  assign block_elements_gap = section.settings.block_elements_gap | default: 16
+  assign header_elements_gap = section.settings.header_elements_gap | default: 16
+  assign header_blocks_gap = section.settings.header_blocks_gap | default: 40
+
+  assign mobile_layout = section.settings.mobile_layout | default: 'carousel'
+  assign hero_blocks_classes = "vso-icon-benefits-01__blocks"
+  if mobile_layout == 'carousel'
+    assign hero_blocks_classes = hero_blocks_classes | append: " vso-icon-benefits-01__blocks--carousel-mobile"
+  endif
+
+  assign title_parts = section.settings.title | split: '_'
+  assign processed_title = ''
+  assign is_highlighted = false
+  for part in title_parts
+    if is_highlighted
+      capture highlighted_part
+        echo '<span style="color: ' | append: section.settings.title_highlight_color | append: ';">' | append: part | append: '</span>'
+      endcapture
+      assign processed_title = processed_title | append: highlighted_part
+      assign is_highlighted = false
+    else
+      assign processed_title = processed_title | append: part
+      assign is_highlighted = true
+    endif
+  endfor
+
+  assign block_count = section.blocks.size
+-%}
+
+{%- style -%}
+  {{ section.settings.title_font | font_face: font_display: 'swap' }}
+  {{ section.settings.subtitle_font | font_face: font_display: 'swap' }}
+  {{ section.settings.blocks_title_font | font_face: font_display: 'swap' }}
+  {{ section.settings.blocks_text_font | font_face: font_display: 'swap' }}
+
+  {% if section.settings.custom_title_font %}
+    #Icon-Benefits-01-{{ section.id }} .vso-icon-benefits-01__title {
+      font-family: {{ section.settings.title_font.family }}, {{ section.settings.title_font.fallback_families }};
+      font-style: {{ section.settings.title_font.style }};
+    }
+  {% endif %}
+
+  {% if section.settings.custom_subtitle_font %}
+    #Icon-Benefits-01-{{ section.id }} .vso-icon-benefits-01__subtitle {
+      font-family: {{ section.settings.subtitle_font.family }}, {{ section.settings.subtitle_font.fallback_families }};
+      font-style: {{ section.settings.subtitle_font.style }};
+    }
+  {% endif %}
+
+  {% if section.settings.custom_blocks_title_font %}
+    #Icon-Benefits-01-{{ section.id }} .vso-icon-benefits-01__block-title {
+      font-family: {{ section.settings.blocks_title_font.family }}, {{ section.settings.blocks_title_font.fallback_families }};
+      font-style: {{ section.settings.blocks_title_font.style }};
+    }
+  {% endif %}
+
+  {% if section.settings.custom_blocks_text_font %}
+    #Icon-Benefits-01-{{ section.id }} .vso-icon-benefits-01__block-text {
+      font-family: {{ section.settings.blocks_text_font.family }}, {{ section.settings.blocks_text_font.fallback_families }};
+      font-style: {{ section.settings.blocks_text_font.style }};
+    }
+  {% endif %}
+
+  .vso-icon-benefits-01 {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .vso-icon-benefits-01__title {
+    margin: 0;
+    line-height: {{ section.settings.title_line_height }}%;
+    font-size: {{ section.settings.title_size_desktop }}px;
+  }
+
+  .vso-icon-benefits-01__subtitle {
+    margin: 0;
+    line-height: {{ section.settings.subtitle_line_height }}%;
+    font-size: {{ section.settings.subtitle_size_desktop }}px;
+  }
+
+  .vso-icon-benefits-01__header {
+    display: flex;
+    flex-direction: column;
+    gap: {{ header_elements_gap }}px;
+    margin-bottom: {{ header_blocks_gap }}px;
+  }
+
+  .vso-icon-benefits-01__blocks {
+    display: grid;
+    grid-template-columns: repeat({{ block_count }}, 1fr);
+    gap: {{ desktop_blocks_gap }}px;
+  }
+
+  .vso-icon-benefits-01__block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: {{ block_padding }}px;
+    background-color: {{ section.settings.block_background_color }};
+    border-radius: {{ section.settings.block_border_radius }}px;
+    gap: {{ block_elements_gap }}px;
+  }
+
+  .vso-node {
+    display: none;
+  }
+
+  .vso-node--v2 {
+    display: block;
+  }
+
+  .vso-icon-benefits-01__block-icon {
+    display: flex;
+    justify-content: {{ blocks_alignment }};
+    line-height: 1;
+    width: 100%;
+  }
+
+  .vso-icon-benefits-01__block-icon > img {
+    width: {{ section.settings.desktop_icon_size }}px;
+    height: {{ section.settings.desktop_icon_size }}px;
+  }
+
+  .vso-icon-benefits-01__block-title {
+    width: 100%;
+    margin: 0;
+    line-height: {{ section.settings.block_title_line_height }}%;
+    font-size: {{ section.settings.block_title_size_desktop }}px;
+  }
+
+  .vso-icon-benefits-01__block-text {
+    width: 100%;
+    margin: 0;
+    line-height: {{ section.settings.block_text_line_height }}%;
+    font-size: {{ section.settings.block_text_size_desktop }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .vso-icon-benefits-01__blocks {
+      display: block;
+    }
+
+    .vso-icon-benefits-01__blocks:not(.vso-icon-benefits-01__blocks--carousel-mobile) {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: {{ mobile_blocks_gap }}px;
+    }
+
+    .vso-icon-benefits-01__blocks.vso-icon-benefits-01__blocks--carousel-mobile {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      --vso-mobile-peek-amount: {{ mobile_peek_percentage }}%;
+      padding-right: var(--vso-mobile-peek-amount);
+      padding-bottom: 10px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      gap: {{ mobile_blocks_gap }}px;
+      scroll-behavior: smooth;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    .vso-icon-benefits-01__blocks.vso-icon-benefits-01__blocks--carousel-mobile:active {
+      cursor: grabbing;
+    }
+
+    .vso-icon-benefits-01__blocks.vso-icon-benefits-01__blocks--carousel-mobile::-webkit-scrollbar {
+      display: none;
+    }
+
+    .vso-icon-benefits-01__blocks.vso-icon-benefits-01__blocks--carousel-mobile .vso-icon-benefits-01__block--carousel-item {
+      flex: 0 0 calc(100% - var(--vso-mobile-peek-amount));
+      scroll-snap-align: start;
+      min-width: calc(100% - var(--vso-mobile-peek-amount));
+      transition: transform 0.3s ease;
+    }
+
+    .vso-icon-benefits-01__block-icon > img {
+      width: {{ section.settings.desktop_icon_size }}px;
+      height: {{ section.settings.desktop_icon_size }}px;
+    }
+
+    .vso-icon-benefits-01__title {
+      font-size: {{ section.settings.title_size_mobile }}px;
+    }
+
+    .vso-icon-benefits-01__subtitle {
+      font-size: {{ section.settings.subtitle_size_mobile }}px;
+    }
+
+    .vso-icon-benefits-01__block-title {
+      font-size: {{ section.settings.block_title_size_mobile }}px;
+    }
+
+    .vso-icon-benefits-01__block-text {
+      font-size: {{ section.settings.block_text_size_mobile }}px;
+    }
+  }
+
+  .section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top_desktop }}px;
+    padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
+    margin-top: {{ section.settings.margin_top_desktop }}px;
+    margin-bottom: {{ section.settings.margin_bottom_desktop }}px;
+  }
+
+  .section-{{ section.id }} .{{ section_width }} {
+    {% unless section.settings.full_width %}
+      max-width: {{ section.settings.section_max_width }}rem;
+    {% endunless %}
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+      margin-top: {{ section.settings.margin_top_mobile }}px;
+      margin-bottom: {{ section.settings.margin_bottom_mobile }}px;
+    }
+
+    .section-{{ section.id }} .{{ section_width }} {
+      padding-left: {{ section.settings.padding_horizontal_mobile }}px;
+      padding-right: {{ section.settings.padding_horizontal_mobile }}px;
+    }
+  }
+{%- endstyle -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    background-color: {{ section.settings.background_color }};
+    width: 100%;
+    max-width: 100%;
+  }
+</style>
+
+<div class="section-{{ section.id }} vso-node" style="background-color: {{ section.settings.background_color }};">
+  <div class="section-{{ section.id }}-settings">
+    <div class="{{ section_width }}">
+      <div class="vso-icon-benefits-01" id="Icon-Benefits-01-{{ section.id }}">
+        <div class="vso-icon-benefits-01__header">
+          {% if section.settings.title != blank %}
+            <h2 class="vso-icon-benefits-01__title" style="color: {{ section.settings.title_color }}; text-align: {{ text_alignment }};">
+              {{ processed_title }}
+            </h2>
+          {% endif %}
+
+          {% if section.settings.subtitle != blank %}
+            <div class="vso-icon-benefits-01__subtitle" style="color: {{ section.settings.subtitle_color }}; text-align: {{ text_alignment }};">
+              {{ section.settings.subtitle }}
+            </div>
+          {% endif %}
+        </div>
+
+        {% if section.blocks.size > 0 %}
+          <div class="{{ hero_blocks_classes }}" style="gap: {{ section.settings.blocks_gap }}px;">
+            {% for block in section.blocks %}
+              <div class="vso-icon-benefits-01__block {% if mobile_layout == 'carousel' %}vso-icon-benefits-01__block--carousel-item{% endif %}" style="text-align: {{ blocks_alignment }};" {{ block.shopify_attributes }}>
+                {% if block.settings.icon != blank %}
+                  <div class="vso-icon-benefits-01__block-icon">
+                    {{ block.settings.icon | image_url: width: section.settings.desktop_icon_size | image_tag: loading: 'lazy', width: section.settings.desktop_icon_size, height: section.settings.desktop_icon_size }}
+                  </div>
+                {% endif %}
+
+                {% if block.settings.title != blank %}
+                  <h3 class="vso-icon-benefits-01__block-title" style="color: {{ section.settings.blocks_title_color }}; text-align: {{ blocks_alignment }};">
+                    {{ block.settings.title }}
+                  </h3>
+                {% endif %}
+
+                {% if block.settings.text != blank %}
+                  <div class="vso-icon-benefits-01__block-text" style="color: {{ section.settings.blocks_text_color }}; text-align: {{ blocks_alignment }};">
+                    {{ block.settings.text }}
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.querySelector('#Icon-Benefits-01-{{ section.id }} .vso-icon-benefits-01__blocks--carousel-mobile');
+    if (!carousel) return;
+
+    let startX, scrollLeft;
+    let isMouseDown = false;
+
+    carousel.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].pageX;
+      scrollLeft = carousel.scrollLeft;
+    });
+
+    carousel.addEventListener('touchmove', (e) => {
+      if (!startX) return;
+      const x = e.touches[0].pageX;
+      const walk = (startX - x);
+      carousel.scrollLeft = scrollLeft + walk;
+      if (Math.abs(walk) > 10) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    carousel.addEventListener('touchend', () => {
+      startX = null;
+    });
+
+    carousel.addEventListener('mousedown', (e) => {
+      isMouseDown = true;
+      startX = e.pageX;
+      scrollLeft = carousel.scrollLeft;
+      e.preventDefault();
+    });
+
+    carousel.addEventListener('mouseleave', () => {
+      isMouseDown = false;
+    });
+
+    carousel.addEventListener('mouseup', () => {
+      isMouseDown = false;
+    });
+
+    carousel.addEventListener('mousemove', (e) => {
+      if (!isMouseDown) return;
+      e.preventDefault();
+      const x = e.pageX;
+      const walk = (startX - x);
+      carousel.scrollLeft = scrollLeft + walk;
+    });
+
+    let isScrolling;
+    carousel.addEventListener('scroll', () => {
+      window.clearTimeout(isScrolling);
+      isScrolling = setTimeout(() => {
+        const itemWidth = carousel.querySelector('.vso-icon-benefits-01__block--carousel-item').offsetWidth;
+        const scrollPosition = carousel.scrollLeft;
+        const nearestItem = Math.round(scrollPosition / itemWidth);
+        carousel.scrollTo({
+          left: nearestItem * itemWidth,
+          behavior: 'smooth'
+        });
+      }, 150);
+    });
+  });
+
+  if (Shopify.designMode) {
+    document.addEventListener('shopify:section:unload', () => {});
+    document.addEventListener('shopify:section:load', () => {});
+  }
+</script>
+
+{% schema %}
+{
+  "name": "VSO - Icon Benefits 01",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<b>Feel Better, Sleep Better _With Versio_</b>"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "min": 20,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size (Desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size (Mobile)",
+      "default": 32
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_title_font",
+      "label": "Use custom title font",
+      "default": false
+    },
+    {
+      "type": "font_picker",
+      "id": "title_font",
+      "label": "Title font",
+      "default": "helvetica_n4"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "title_highlight_color",
+      "label": "Title highlight color",
+      "default": "#FACD56",
+      "info": "Color for text wrapped in _underscores_"
+    },
+    {
+      "type": "range",
+      "id": "title_line_height",
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "unit": "%",
+      "label": "Title line height",
+      "default": 130
+    },
+    {
+      "type": "header",
+      "content": "Subtitle"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Feel the difference magnesium makes."
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_desktop",
+      "min": 14,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Subtitle size (Desktop)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_mobile",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Subtitle size (Mobile)",
+      "default": 16
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_subtitle_font",
+      "label": "Use custom subtitle font",
+      "default": false
+    },
+    {
+      "type": "font_picker",
+      "id": "subtitle_font",
+      "label": "Subtitle font",
+      "default": "helvetica_n4"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_line_height",
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "unit": "%",
+      "label": "Subtitle line height",
+      "default": 130
+    },
+    {
+      "type": "range",
+      "id": "header_elements_gap",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Space between title and subtitle",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Space between subtitle and blocks"
+    },
+    {
+      "type": "range",
+      "id": "header_blocks_gap",
+      "min": 16,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "label": "Space between subtitle and blocks",
+      "default": 50,
+      "info": "Space between subtitle and blocks"
+    },
+    {
+      "type": "header",
+      "content": "Blocks Typography"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_blocks_title_font",
+      "label": "Use custom blocks title font",
+      "default": false
+    },
+    {
+      "type": "font_picker",
+      "id": "blocks_title_font",
+      "label": "Blocks title font",
+      "default": "helvetica_n4"
+    },
+    {
+      "type": "range",
+      "id": "block_title_size_desktop",
+      "min": 12,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "label": "Block title size (Desktop)",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "block_title_size_mobile",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Block title size (Mobile)",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "block_title_line_height",
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "unit": "%",
+      "label": "Block title line height",
+      "default": 120
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_blocks_text_font",
+      "label": "Use custom blocks text font",
+      "default": false
+    },
+    {
+      "type": "font_picker",
+      "id": "blocks_text_font",
+      "label": "Blocks text font",
+      "default": "helvetica_n4"
+    },
+    {
+      "type": "range",
+      "id": "block_text_size_desktop",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Block text size (Desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "block_text_size_mobile",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Block text size (Mobile)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "block_text_line_height",
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "unit": "%",
+      "label": "Block text line height",
+      "default": 150
+    },
+    {
+      "type": "color",
+      "id": "blocks_title_color",
+      "label": "Blocks title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "blocks_text_color",
+      "label": "Blocks text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Block Styling"
+    },
+    {
+      "type": "color",
+      "id": "block_background_color",
+      "label": "Block background color",
+      "default": "transparent"
+    },
+    {
+      "type": "range",
+      "id": "desktop_icon_size",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "block_padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Block padding",
+      "default": 0,
+      "info": "Inner spacing of each block"
+    },
+    {
+      "type": "range",
+      "id": "block_elements_gap",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Space between elements",
+      "default": 16,
+      "info": "Equal spacing between icon, title, and description"
+    },
+    {
+      "type": "range",
+      "id": "block_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Block border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Mobile Block Layout"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile layout",
+      "options": [
+        { "value": "carousel", "label": "Carousel" },
+        { "value": "column", "label": "Column" }
+      ],
+      "default": "column"
+    },
+    {
+      "type": "range",
+      "id": "mobile_blocks_gap",
+      "min": 8,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between blocks (Mobile)",
+      "default": 16,
+      "info": "Space between blocks in mobile view (applies to both carousel and stacked layouts)"
+    },
+    {
+      "type": "range",
+      "id": "mobile_peek_percentage",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "label": "Mobile peek amount",
+      "default": 5,
+      "info": "Percentage of next card visible on mobile to indicate swipe ability"
+    },
+    {
+      "type": "header",
+      "content": "Section Layout"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section Background color",
+      "default": "#F7F7F7"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "blocks_alignment",
+      "label": "Blocks content alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "desktop_blocks_gap",
+      "min": 16,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between blocks (Desktop)",
+      "default": 32,
+      "info": "Space between blocks in desktop view"
+    },
+    {
+      "type": "range",
+      "id": "section_max_width",
+      "min": 30,
+      "max": 200,
+      "step": 2,
+      "unit": "rem",
+      "label": "Section max width",
+      "default": 64,
+      "info": "Maximum width of the section content on desktop"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full Width",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Desktop Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 180,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 180,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "margin_top_desktop",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_desktop",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "margin_top_mobile",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_mobile",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal_mobile",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding sides (mobile)",
+      "default": 15
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "limit": 4,
+      "settings": [
+        { "type": "header", "content": "Block Content" },
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "inline_richtext", "id": "title", "label": "Title", "default": "Benefit Title" },
+        { "type": "inline_richtext", "id": "text", "label": "Text", "default": "Benefit description goes here" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "VSO - Icon Benefits 01",
+      "blocks": [
+        { "type": "benefit", "settings": { "title": "Deeper Sleep", "text": "Supports natural melatonin production for restful, uninterrupted sleep." } },
+        { "type": "benefit", "settings": { "title": "Calm & Relaxation", "text": "Promotes a relaxed nervous system and reduces everyday stress." } },
+        { "type": "benefit", "settings": { "title": "Muscle Recovery", "text": "Eases cramps and supports faster post-workout recovery." } },
+        { "type": "benefit", "settings": { "title": "Heart & Energy Support", "text": "Boosts cardiovascular health and helps convert food into steady energy." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

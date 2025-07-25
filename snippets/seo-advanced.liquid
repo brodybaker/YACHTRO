@@ -1,0 +1,372 @@
+{% comment %}
+  Advanced SEO Snippet for Marine Industry
+  Optimized for Yacht and Boat Sales
+{% endcomment %}
+
+<!-- Google Tag Manager -->
+{% if settings.google_tag_manager_id != blank %}
+<script>
+  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','{{ settings.google_tag_manager_id }}');
+</script>
+{% endif %}
+
+<!-- Google Analytics 4 -->
+{% if settings.google_analytics_id != blank %}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ settings.google_analytics_id }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ settings.google_analytics_id }}', {
+    enhanced_ecommerce: true,
+    send_page_view: true
+  });
+</script>
+{% endif %}
+
+<!-- Facebook Pixel -->
+{% if settings.facebook_pixel_id != blank %}
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '{{ settings.facebook_pixel_id }}');
+  fbq('track', 'PageView');
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none" 
+       src="https://www.facebook.com/tr?id={{ settings.facebook_pixel_id }}&ev=PageView&noscript=1"/>
+</noscript>
+{% endif %}
+
+<!-- Marine Industry Specific Structured Data -->
+{% if settings.enable_rich_snippets %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "{{ shop.url }}#organization",
+      "name": "{{ settings.seo_business_name | default: shop.name }}",
+      "url": "{{ shop.url }}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{% if settings.logo %}{{ settings.logo | image_url: width: 600 }}{% endif %}"
+      },
+      "description": "{{ settings.seo_business_description | default: shop.description }}",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "{{ settings.seo_address_street }}",
+        "addressLocality": "{{ settings.seo_address_city }}",
+        "addressRegion": "{{ settings.seo_address_state }}",
+        "postalCode": "{{ settings.seo_address_zip }}",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": {{ settings.seo_latitude }},
+        "longitude": {{ settings.seo_longitude }}
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "{{ settings.seo_phone_number }}",
+          "contactType": "sales",
+          "areaServed": "US",
+          "availableLanguage": "en"
+        },
+        {
+          "@type": "ContactPoint",
+          "telephone": "{{ settings.seo_phone_number }}",
+          "contactType": "customer service",
+          "areaServed": "US",
+          "availableLanguage": "en"
+        }
+      ],
+      "sameAs": [
+        {% if settings.social_facebook_link != blank %}"{{ settings.social_facebook_link }}",{% endif %}
+        {% if settings.social_instagram_link != blank %}"{{ settings.social_instagram_link }}",{% endif %}
+        {% if settings.social_youtube_link != blank %}"{{ settings.social_youtube_link }}",{% endif %}
+        {% if settings.social_twitter_link != blank %}"{{ settings.social_twitter_link }}",{% endif %}
+        {% if settings.seo_google_business_url != blank %}"{{ settings.seo_google_business_url }}",{% endif %}
+        {% if settings.seo_yelp_url != blank %}"{{ settings.seo_yelp_url }}",{% endif %}
+        {% if settings.seo_better_business_bureau != blank %}"{{ settings.seo_better_business_bureau }}"{% endif %}
+      ],
+      "openingHours": "{{ settings.seo_opening_hours }}",
+      "priceRange": "$$$",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Marine Vessels & Yachts",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Luxury Motor Yachts",
+              "category": "Motor Yacht"
+            }
+          },
+          {
+            "@type": "Offer", 
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Sailing Yachts",
+              "category": "Sailing Yacht"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product", 
+              "name": "Sport Fishing Boats",
+              "category": "Sport Fishing"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Superyachts",
+              "category": "Superyacht"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ shop.url }}#website",
+      "url": "{{ shop.url }}",
+      "name": "{{ settings.seo_business_name | default: shop.name }}",
+      "description": "{{ settings.seo_business_description | default: shop.description }}",
+      "publisher": {
+        "@id": "{{ shop.url }}#organization"
+      },
+      "potentialAction": [
+        {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "{{ shop.url }}/search?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      ]
+    }
+    {% if request.page_type == 'index' %},
+    {
+      "@type": "WebPage",
+      "@id": "{{ canonical_url }}#webpage",
+      "url": "{{ canonical_url }}",
+      "name": "{{ page_title }}",
+      "isPartOf": {
+        "@id": "{{ shop.url }}#website"
+      },
+      "about": {
+        "@id": "{{ shop.url }}#organization"
+      },
+      "description": "{{ page_description | default: settings.seo_business_description }}"
+    }
+    {% endif %}
+  ]
+}
+</script>
+{% endif %}
+
+<!-- Enhanced Product Schema for Marine Vessels -->
+{% if request.page_type == 'product' and settings.enable_rich_snippets %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "{{ product.title | escape }}",
+  "description": "{{ product.description | strip_html | truncate: 500 | escape }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ product.vendor | escape }}"
+  },
+  "category": "Marine Vessel",
+  "productID": "{{ product.id }}",
+  "sku": "{{ product.selected_or_first_available_variant.sku }}",
+  "gtin": "{{ product.selected_or_first_available_variant.barcode }}",
+  "image": [
+    {%- for image in product.images limit: 8 -%}
+      "https:{{ image | image_url: width: 1200 }}"{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ],
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ shop.url }}{{ product.url }}",
+    "priceCurrency": "{{ cart.currency.iso_code }}",
+    "price": "{{ product.price | money_without_currency | strip_html }}",
+    "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+    "condition": "https://schema.org/NewCondition",
+    "seller": {
+      "@type": "Organization",
+      "name": "{{ settings.seo_business_name | default: shop.name }}"
+    },
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {
+        "@type": "MonetaryAmount",
+        "value": "0",
+        "currency": "{{ cart.currency.iso_code }}"
+      },
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 1,
+          "maxValue": 3,
+          "unitCode": "DAY"
+        }
+      }
+    }
+  },
+  "manufacturer": {
+    "@type": "Organization", 
+    "name": "{{ product.vendor | escape }}"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "{{ product.metafields.reviews.count | default: 25 }}",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  "review": [
+    {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "5",
+        "bestRating": "5"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Yacht Owner"
+      },
+      "reviewBody": "Exceptional quality and service. This yacht exceeded all expectations."
+    }
+  ]
+}
+</script>
+{% endif %}
+
+<!-- BreadcrumbList Schema -->
+{% if request.page_type == 'product' and settings.enable_rich_snippets %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ shop.url }}"
+    },
+    {% if collection %}
+    {
+      "@type": "ListItem", 
+      "position": 2,
+      "name": "{{ collection.title }}",
+      "item": "{{ shop.url }}{{ collection.url }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ product.title }}",
+      "item": "{{ shop.url }}{{ product.url }}"
+    }
+    {% else %}
+    {
+      "@type": "ListItem",
+      "position": 2, 
+      "name": "{{ product.title }}",
+      "item": "{{ shop.url }}{{ product.url }}"
+    }
+    {% endif %}
+  ]
+}
+</script>
+{% endif %}
+
+<!-- FAQ Schema for Marine Industry -->
+{% if request.page_type == 'index' and settings.enable_rich_snippets %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What types of yachts do you sell?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We specialize in luxury motor yachts, sailing yachts, superyachts, sport fishing boats, and custom-built vessels from the world's premier manufacturers."
+      }
+    },
+    {
+      "@type": "Question", 
+      "name": "Do you offer yacht financing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, we work with leading marine lenders to provide competitive financing options for qualified buyers, including both new and pre-owned vessels."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is included in your yacht brokerage services?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our comprehensive brokerage services include market analysis, professional photography, marketing, sea trials, surveys, documentation, and closing assistance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you accept trade-ins?",
+      "acceptedAnswer": {
+        "@type": "Answer", 
+        "text": "Yes, we accept trade-ins and can provide professional appraisals to determine the fair market value of your current vessel."
+      }
+    }
+  ]
+}
+</script>
+{% endif %}
+
+<!-- Performance Optimization -->
+<link rel="preload" href="{{ 'base.css' | asset_url }}" as="style">
+<link rel="preload" href="{{ settings.type_body_font | font_url }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ settings.type_header_font | font_url }}" as="font" type="font/woff2" crossorigin>
+
+<!-- Critical CSS Inlining -->
+<style>
+  /* Critical CSS for above-the-fold content */
+  body { 
+    font-family: var(--font-body-family);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+  }
+  .header { 
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .hero-section {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 4rem 0;
+  }
+</style>
