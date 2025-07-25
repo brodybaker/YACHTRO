@@ -1,0 +1,82 @@
+{%- style -%}
+.section-{{ section.id }}-padding {
+  padding-top: calc({{ section.settings.padding_top }}px * 0.75);
+  padding-bottom: calc({{ section.settings.padding_bottom }}px  * 0.75);
+  background-color: {{ section.settings.background-color }};
+}
+
+@media screen and (min-width: 750px) {
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+}
+.section-{{ section.id }}-padding blockquote{
+  padding: unset;
+  background: unset;
+  border: unset;
+  margin: 0 auto;
+  border-radius: 20px;
+  box-shadow: 4px 2px 6px 4px #57575754;
+}
+
+{%- endstyle -%}
+<div class="section-{{ section.id }}-padding">
+  <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@{{ section.settings.username }}" data-unique-id="{{ section.settings.username }}" data-embed-type="creator" style="max-width: 780px; min-height: 400px"><section> <a target="_blank" href="https://www.tiktok.com/@{{ section.settings.username }}?refer=creator_embed">@{{ section.settings.username }}</a> </section></blockquote> <script async="" src="https://www.tiktok.com/embed.js"></script>
+  
+</div>
+
+{% schema %}
+{
+  "name": "WishIt Tiktok Profile",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Wishit Customization Support",
+      "info": "For any customizations required in this section, feel free to write to us at contact@adevole.com"
+    },
+    {
+      "type": "text",
+      "id": "username",
+      "label": "Username",
+      "info": "We use official Tiktok embed code to generate the embed block, the size of the embed is limited to 760px."
+    },
+    {
+      "type": "color",
+      "id": "background-color",
+      "label": "Background Color"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "WishIt Tiktok Profile"
+    }
+  ]
+}
+{% endschema %}

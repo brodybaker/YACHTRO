@@ -1,0 +1,295 @@
+{% doc %}
+  @prompt
+    Create a location display element that integrates into the product information section beside the brand name. Show "Available in Naples" with styling that matches the product details layout. Make it appear as part of the product meta information with proper spacing and typography that complements the brand name display., "Avaliable in Naples, Fl" and make it a link to google maps, and have it Right next to brand name in the product information!!
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-location-display-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    margin-left: {{ block.settings.spacing_from_brand }}px;
+    vertical-align: baseline;
+  }
+  
+  .ai-location-link-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: {{ block.settings.text_color }};
+    transition: color 0.2s ease;
+  }
+  
+  .ai-location-link-{{ ai_gen_id }}:hover {
+    color: {{ block.settings.hover_color }};text-decoration: {{ block.settings.hover_underline }};
+  }
+  
+  .ai-location-icon-{{ ai_gen_id }} {
+    display: inline-flex;
+    margin-right: 6px;
+  }
+  .ai-location-icon-{{ ai_gen_id }} svg {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;color: currentColor;
+  }
+  
+  .ai-location-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.font_size }}px;
+    font-weight: {{ block.settings.font_weight }};
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+  
+  .ai-location-separator-{{ ai_gen_id }} {
+    margin: 0 {{ block.settings.separator_spacing }}px;
+    color: {{ block.settings.separator_color }};
+    font-weight: 300;
+  }
+  @media screen and (max-width: 749px) {
+    .ai-location-display-{{ ai_gen_id }} {
+      margin-left: {{ block.settings.spacing_from_brand_mobile }}px;
+    }
+    
+    .ai-location-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.font_size_mobile }}px;
+    }
+    
+    .ai-location-icon-{{ ai_gen_id }} svg {
+      width: {{ block.settings.icon_size_mobile }}px;
+      height: {{ block.settings.icon_size_mobile }}px;
+    }
+    
+    .ai-location-separator-{{ ai_gen_id }} {
+      margin: 0 {{ block.settings.separator_spacing_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-location-display-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.show_separator %}
+    <span class="ai-location-separator-{{ ai_gen_id }}">{{ block.settings.separator_text }}</span>
+  {% endif %}<a 
+    href="{{ block.settings.google_maps_url }}" 
+    class="ai-location-link-{{ ai_gen_id }}"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="View {{ block.settings.location_name }} location on Google Maps"
+  >
+    {% if block.settings.show_icon %}
+      <div class="ai-location-icon-{{ ai_gen_id }}">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+      </div>
+    {% endif %}
+    
+    <span class="ai-location-text-{{ ai_gen_id }}">
+      {{ block.settings.prefix }}{{ block.settings.location_name }}
+    </span>
+  </a>
+</div>
+
+{% schema %}
+{
+  "name": "Location Display",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "prefix",
+      "label": "Prefix text",
+      "default": "Available in "
+    },
+    {
+      "type": "text",
+      "id": "location_name",
+      "label": "Location name",
+      "default": "Naples, FL"
+    },
+    {
+      "type": "url",
+      "id": "google_maps_url",
+      "label": "Google Maps URL"
+    },
+    {
+      "type": "header",
+      "content": "Separator"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_separator",
+      "label": "Show separator before location",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "separator_text",
+      "label": "Separator text",
+      "default": "•"
+    },
+    {
+      "type": "color",
+      "id": "separator_color",
+      "label": "Separator color",
+      "default": "#999999"
+    },
+    {
+      "type": "range",
+      "id": "separator_spacing",
+      "min": 4,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Separator spacing",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "separator_spacing_mobile",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "label": "Separator spacing (mobile)",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Icon"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Show location icon",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "icon_size_mobile",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Icon size (mobile)",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size (mobile)",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "hover_color",
+      "label": "Hover color",
+      "default": "#2e8cab"
+    },
+    {
+      "type": "select",
+      "id": "hover_underline",
+      "label": "Hover underline",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "underline",
+          "label": "Underline"
+        }
+      ],
+      "default": "underline"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "spacing_from_brand",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Spacing from brand name",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "spacing_from_brand_mobile",
+      "min": 2,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Spacing from brand (mobile)",
+      "default": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "Location Display"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,47 @@
+<div class="group product-card relative bg-white rounded-md overflow-hidden shadow-md border-0 hover:shadow-lg transition-all duration-300 w-full mx-auto max-w-md">
+  <!-- Image container -->
+  <div class="relative overflow-hidden">
+    {% if product.featured_image %}
+      <img
+        src="{{ product.featured_image | img_url: '600x' }}"
+        alt="{{ product.title }}"
+        class="w-full h-80 object-cover"
+      />
+    {% else %}
+      <img
+        src="https://placehold.co/600x400/11192c/FFFFFF/png?text=Yachtrow"
+        alt="Placeholder"
+        class="w-full h-80 object-cover"
+      />
+    {% endif %}
+  </div>
+
+  <!-- Details overlaying the image -->
+  <div class="absolute bottom-0 left-0 right-0 p-3 bg-transparent backdrop-blur-sm bg-white/40">
+    <div class="flex justify-between items-start">
+      <div class="flex-1">
+        <div class="text-sm font-medium mb-0.5 text-gray-900">
+          {% assign year = product.metafields.custom.year %}
+          {% assign manufacturer = product.vendor %}
+          {% assign length = product.metafields.custom.length %}
+          {{ year }} {{ manufacturer }} {{ product.title }} <span class="ml-1">• {{ length }}ft</span>
+        </div>
+        <div class="text-lg font-bold text-blue-700 mb-0.5">
+          {{ product.price | money }}
+        </div>
+        <div class="text-xs text-gray-800 font-medium mb-0">
+          <strong>{{ product.vendor }}</strong>
+          {% if product.metafields.custom.location %}
+            | {{ product.metafields.custom.location | split: ',' | first }}
+          {% endif %}
+        </div>
+      </div>
+
+      <a href="{{ product.url }}" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium py-1 px-2 rounded whitespace-nowrap">
+        View Details
+      </a>
+    </div>
+  </div>
+</div>
+
+
