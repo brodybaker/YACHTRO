@@ -1,0 +1,616 @@
+{% comment %}
+{
+  "name": "Collection Grid 1",
+  "version": "1.0.0",
+  "url": "https://themepack.co/section/collection-grid-1",
+  "author": "Themepack",
+  "license": "MIT"
+}
+{% endcomment %}
+
+{%- liquid
+  assign heading_tag = 'h2'
+  assign section_heading = section.settings.heading
+
+  if section.index0 == 0 and section_heading != blank
+    assign heading_tag = 'h1'
+  endif
+-%}
+
+{%- capture html_id -%}
+  {%- if section.settings.html_id != blank -%}
+    id="{{ section.settings.html_id | handleize }}"
+  {%- endif -%}
+{%- endcapture -%}
+
+{% stylesheet %}
+
+	.tp-collection-1 {
+		background: var(--tp-background-color, radial-gradient(rgba(137, 143, 239, 1), rgba(120, 196, 245, 1) 100%));
+	}
+
+  .tp-collection-1 * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+	.tp-collection-1 a {
+   color: inherit;
+  }
+
+  .tp-collection-1 .tp__container {
+    padding-block: var(--tp-padding-top, 52px) var(--tp-padding-bottom, 52px);
+    max-width: calc(var(--tp-section-width, 1200px) + 40px);
+    padding-inline: 20px;
+    margin-inline: auto;
+  }
+    
+  .tp-collection-1 .tp__heading {
+    margin-bottom: var(--tp-header-margin-bottom, 30px);
+    text-align: var(--tp-heading-alignment, center);
+    font-weight: var(--tp-heading-weight, 600 );
+    font-size: var(--tp-heading-size, 24px);
+    color: var(--tp-heading-color, #ffff);
+  }
+
+  .tp-collection-1 .tp__grid {
+    grid-template-columns: var(--tp-grid-columns-mobile, 1fr);
+    gap: var(--tp-grid-gap, 20px);
+    display: grid;
+  }
+
+  .tp-collection-1 .tp__grid-item {
+    border-radius: var(--tp-collection-border-radius, 20px);
+    min-height: var(--tp-item-min-height-mobile, 200px);
+    color: var(--tp-item-title-color, #ffff);
+    position: relative;
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+    background-color: #f5f5f5f5;
+  }
+
+  .tp-collection-1 .tp__item-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .tp-collection-1 .tp__grid-item:hover .tp__item-image {
+    transform: scale(1.05);
+  }
+
+  .tp-collection-1 .tp__item-overlay {
+    background-color: var(--tp-overlay-color, #337db4);
+    opacity: var(--tp-overlay-opacity, 0.3);
+    transition: opacity 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .tp-collection-1 .tp__grid-item:hover .tp__item-overlay {
+    opacity: calc(var(--tp-overlay-opacity, 0.3) * 1.2);
+  }
+
+  .tp-collection-1 .tp__item-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .tp-collection-1 .tp__item-title {
+    font-size: var(--tp-item-title-size, 32px);
+    font-weight: var(--tp-item-title-weight, 500);
+    color: inherit;
+    line-height: 1.3;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .tp-collection-1 .tp__grid {
+      grid-template-columns: var(--tp-grid-columns-desktop, 580px 1fr 1fr);
+    }
+
+    .tp-collection-1 .tp__grid-item {
+      min-height: var(--tp-item-min-height-desktop, 250px);
+    }
+
+    .tp-collection-1 .tp__grid-item:nth-child(1) {
+      grid-column: 1 / 2;
+      grid-row: 1 / 3;
+    }
+
+    .tp-collection-1 .tp__grid-item:nth-child(2) {
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
+    }
+    
+    .tp-collection-1 .tp__grid-item:nth-child(3) {
+      grid-column: 3 / 4;
+      grid-row: 1 / 2;
+    }
+
+    .tp-collection-1 .tp__grid-item:nth-child(4) {
+      grid-column: 2 / 4;
+      grid-row: 2 / 3;
+    }
+
+    .tp-collection-1 .tp__grid-item:nth-child(1) {
+      min-height: calc(var(--tp-item-min-height-desktop, 250px) * 2 + var(--tp-grid-gap, 20px));
+    }
+  }
+{% endstylesheet %}
+
+<style>
+  #tp-{{ section.id }} {
+    --tp-section-width: {{ section.settings.section_width }}px;
+    --tp-grid-columns-mobile: {{ section.settings.grid_columns_mobile }};
+    --tp-grid-columns-desktop: {{ section.settings.grid_columns_desktop }};
+    --tp-heading-alignment: {{ section.settings.heading_alignment }};
+    --tp-collection-border-radius: {{ section.settings.collection_border_radius }}px;
+    --tp-padding-side: {{ section.settings.mobile_padding_side }}px;
+    --tp-padding-top: {{ section.settings.mobile_padding_top }}px;
+    --tp-padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+    --tp-padding-side-desktop: {{ section.settings.desktop_padding_side }}px;
+    --tp-header-margin-bottom: {{ section.settings.mobile_header_margin_bottom }}px;
+    --tp-grid-gap: {{ section.settings.grid_gap_mobile }}px;
+    --tp-item-min-height-mobile: {{ section.settings.item_min_height_mobile }}px;
+    --tp-item-min-height-desktop: {{ section.settings.item_min_height_desktop }}px;
+    --tp-heading-size: {{ section.settings.mobile_heading_size }}px;
+    --tp-heading-weight: {{ section.settings.heading_weight }};
+    --tp-item-title-size: {{ section.settings.mobile_item_title_size }}px;
+    --tp-item-title-weight: {{ section.settings.item_title_weight }};
+    --tp-background-color: {{ section.settings.background_gradient | default: section.settings.background_color }};
+    --tp-heading-color: {{ section.settings.heading_color }};
+    --tp-item-title-color: {{ section.settings.item_title_color }};
+    --tp-overlay-color: {{ section.settings.overlay_color }};
+    --tp-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+
+    background: var(--tp-background-color, radial-gradient(rgba(137, 143, 239, 1), rgba(120, 196, 245, 1) 100%));
+  }
+
+  @media screen and (min-width: 1024px) {
+    #tp-{{ section.id }} {
+      --tp-padding-top: {{ section.settings.desktop_padding_top }}px;
+      --tp-padding-bottom: {{ section.settings.desktop_padding_bottom }}px;
+      --tp-heading-size: {{ section.settings.desktop_heading_size }}px;
+      --tp-header-margin-bottom: {{ section.settings.desktop_header_margin_bottom }}px;
+      --tp-item-title-size: {{ section.settings.desktop_item_title_size }}px;
+      --tp-grid-gap: {{ section.settings.grid_gap_desktop }}px;
+    }
+  }
+</style>
+
+<div id="tp-{{ section.id }}" class="tp-{{ section.id }}">
+  <div {{ html_id }} class="{{ 'tp__container' | append: section.settings.html_class | strip }}">
+    {%- if section_heading != blank -%}
+      <{{ heading_tag }} class="tp__heading">{{ section_heading }}</{{ heading_tag }}>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="tp__grid">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign collection = block.settings.collection
+            assign image = block.settings.image
+            assign title = block.settings.title | default: collection.title | default: 'Collection'
+            assign url = collection.url | default: '#'
+
+            if image == blank and collection.image != blank
+              assign image = collection.image
+            elsif image == blank and collection.products.first.featured_image != blank
+              assign image = collection.products.first.featured_image
+            endif
+          -%}
+          <a href="{{ url }}" class="tp__grid-item" {{ block.shopify_attributes }}>
+            {%- if image != blank -%}
+              {{ image | image_url: width: 1000 | image_tag: loading: 'lazy', class: 'tp__item-image', widths: '300, 400, 600, 800, 1000', sizes: '(max-width: 767px) 90vw, 450px' }}
+            {%- else -%}
+              {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'tp__item-image' }}
+            {%- endif -%}
+            <div class="tp__item-overlay"></div>
+            <div class="tp__item-content">
+              <h3 class="tp__item-title">{{ title }}</h3>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "TP - Collection Grid 1",
+  "class": "tp-section tp-collection-1",
+  "tag": "section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section information",
+      "info": "Codename: tp-collection-1. For detailed documentation and best practices on using this section, please visit the [Section Guide](https://themepack.co/docs/sections/collection-1)"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "SHOP PRODUCTS"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "text",
+      "id": "grid_columns_desktop",
+      "label": "Columns on desktop (px)",
+      "default": "580px 1fr 1fr",
+      "info": "Enter the widths of the columns in pixels, separated by spaces. Example: '580px 1fr 1fr'"
+    },
+    {
+      "type": "text",
+      "id": "grid_columns_mobile",
+      "label": "Columns on mobile (px)",
+      "default": "1fr",
+      "info": "Enter the widths of the columns in pixels, separated by spaces. Example: '1fr 1fr'"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_desktop",
+      "label": "Desktop: Grid gap (px)",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_mobile",
+      "label": "Mobile: Grid gap (px)",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "item_min_height_mobile",
+      "label": "Mobile: Item minimum height (px)",
+      "min": 150,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "item_min_height_desktop",
+      "label": "Desktop: Smallest item minimum height (px)",
+      "info": "Height of the smallest grid items (e.g., top right). Larger items scale based on this.",
+      "min": 150,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 250
+    },
+    {
+      "type": "range",
+      "id": "collection_border_radius",
+      "label": "Collection card border radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+		{
+      "type": "text_alignment",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "default": "center"
+    },
+    {
+      "type": "number",
+      "id": "desktop_heading_size",
+      "label": "Desktop: Heading size (px)",
+      "default": 24
+    },
+    {
+      "type": "number",
+      "id": "mobile_heading_size",
+      "label": "Mobile: Heading size (px)",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "100",
+          "label": "Thin"
+        },
+        {
+          "value": "200",
+          "label": "Extra light"
+        },
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra bold"
+        },
+        {
+          "value": "900",
+          "label": "Black"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "number",
+      "id": "desktop_item_title_size",
+      "label": "Desktop: Item title size (px)",
+      "default": 32
+    },
+    {
+      "type": "number",
+      "id": "mobile_item_title_size",
+      "label": "Mobile: Item title size (px)",
+      "default": 24
+    },
+     {
+      "type": "select",
+      "id": "item_title_weight",
+      "label": "Item title weight",
+      "options": [
+        {
+          "value": "100",
+          "label": "Thin"
+        },
+        {
+          "value": "200",
+          "label": "Extra light"
+        },
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra bold"
+        },
+        {
+          "value": "900",
+          "label": "Black"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "header",
+      "content": "Design"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient",
+      "info": "If set, overrides the background color.",
+      "default": "radial-gradient(rgba(137, 143, 239, 1), rgba(120, 196, 245, 1) 100%)"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "item_title_color",
+      "label": "Item title color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Image overlay color",
+      "default": "#337db4"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Image overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Section layout"
+    },
+    {
+      "type": "number",
+      "id": "section_width",
+      "label": "Section width (px)",
+      "default": 1200
+    },
+    {
+      "type": "number",
+      "id": "desktop_header_margin_bottom",
+      "label": "Desktop: Space below header (px)",
+      "default": 30
+    },
+    {
+      "type": "number",
+      "id": "mobile_header_margin_bottom",
+      "label": "Mobile: Space below header (px)",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Desktop: Padding top",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Desktop: Padding bottom",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile: Padding top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile: Padding bottom",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "html_id",
+      "label": "HTML ID",
+      "info": "Unique identifier for linking directly to this section"
+    },
+    {
+      "type": "text",
+      "id": "html_class",
+      "label": "HTML Class",
+      "info": "Additional CSS classes for styling the grid container"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_item",
+      "name": "Collection Item",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image override",
+          "info": "Overrides the collection's featured image."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title override",
+          "info": "Overrides the collection's title."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TP - Collection Grid 1",
+       "settings": {
+         "heading": "Shop Products"
+       },
+       "blocks": [
+        { "type": "collection_item", "settings": { "title": "Sports" } },
+        { "type": "collection_item", "settings": { "title": "Outdoors" } },
+        { "type": "collection_item", "settings": { "title": "Travel" } },
+        { "type": "collection_item", "settings": { "title": "Fashion" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

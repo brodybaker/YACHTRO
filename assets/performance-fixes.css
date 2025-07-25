@@ -1,0 +1,133 @@
+/* Performance Fixes - Reducing !important usage */
+
+/* Focus states with proper specificity */
+.product__media-item:focus-within .product__media-toggle:focus {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+  outline-offset: 0.3rem;
+  box-shadow: 
+    0 0 0 0.3rem rgb(var(--color-background)), 
+    0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+}
+
+.product__media-item:focus-within .product__media-toggle:not(:focus) {
+  box-shadow: none;
+}
+
+.product__media-toggle:focus-visible {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+  box-shadow: 
+    0 0 0 0.3rem rgb(var(--color-background)), 
+    0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+}
+
+/* Cart drawer improvements */
+.cart-drawer .cart-item__details-wrapper {
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 0.5rem -0.5rem 0 0;
+}
+
+.cart-drawer .cart-item__details-wrapper > * {
+  flex-basis: calc(50% - 0.5rem);
+  margin: 0;
+}
+
+.cart-drawer .cart-item__details-wrapper > .cart-item__totals {
+  flex-basis: 100%;
+  margin-right: 0.5rem;
+}
+
+/* Media queries for responsive cart items */
+@media screen and (min-width: 750px) {
+  .cart-drawer .cart-item__details-wrapper > * {
+    flex-basis: calc(100% / 3 - 0.5rem);
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .cart-drawer .cart-item__details-wrapper > * {
+    flex-basis: calc(50% - 0.5rem);
+  }
+}
+
+/* Image overflow fixes */
+.product__media-container,
+.image-with-text__media,
+.footer__content {
+  overflow: hidden;
+}
+
+/* Display utilities with proper specificity */
+.design-pack-element.hide-mobile {
+  display: none;
+}
+
+.design-pack-element.show-mobile {
+  display: block;
+}
+
+@media screen and (min-width: 750px) {
+  .design-pack-element.hide-mobile {
+    display: inline-block;
+  }
+  
+  .design-pack-element.hide-desktop {
+    display: none;
+  }
+}
+
+/* Box sizing fix */
+.design-pack-element * {
+  box-sizing: border-box;
+}
+
+/* Width utilities */
+.design-pack-full-width {
+  width: 100%;
+}
+
+/* Position utilities */
+.design-pack-absolute {
+  position: absolute;
+}
+
+/* Loading states */
+.loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2rem;
+  height: 2rem;
+  margin: -1rem 0 0 -1rem;
+  border: 2px solid rgba(var(--color-foreground), 0.1);
+  border-top-color: rgba(var(--color-foreground), 0.8);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Smooth transitions */
+* {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+  }
+}

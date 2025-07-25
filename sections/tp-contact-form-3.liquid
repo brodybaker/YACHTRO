@@ -1,0 +1,1070 @@
+{% comment %}
+  {
+    "name": "Contact form 3,
+    "version": "1.0.0",
+    "url": "https://themepack.co/section/contact-form-3",
+    "author": "Themepack",
+    "license": "MIT"
+  }
+{% endcomment %}
+
+{%- liquid
+	assign tp_image = 'tp__image'
+	if section.settings.image_filter != blank
+		assign tp_image = tp_image | append: ' tp__filter--' | append: section.settings.image_filter
+	endif
+-%}
+
+{% stylesheet %}
+	.tp-contact-form-3 * {
+		margin: 0;
+		padding: 0;
+	}
+
+	.tp-contact-form-3 a { 
+		color: inherit;
+	}
+
+	.tp__button--fade:hover { opacity: 0.8; }
+
+	.tp__button--invert:hover {
+		color: var(--tp-content-color);
+		border-color: currentColor;
+		background-color: transparent;
+	}
+
+	.tp-contact-form-3 .tp__filter--grayscale { filter: grayscale(100%); }
+	.tp-contact-form-3 .tp__filter--sepia { filter: sepia(100%) contrast(1.2); }
+	.tp-contact-form-3 .tp__filter--invert { filter: invert(100%); }
+
+	.tp-contact-form-3 .tp__container {
+		flex-direction: var(--tp-image-layout);
+		padding-block: var(--tp-padding-top, 0px) var(--tp-padding-bottom, 0px);
+		background: var(--tp-background, #FFFFFF);
+		max-width: var(--tp-section-width, 1440px) + 40px;
+		display: flex;
+		justify-content: center;
+		gap: 50px;
+		margin-inline: auto;
+		padding-inline: 20px;
+	}
+	
+	.tp-contact-form-3 .tp__form-heading {
+		color: var(--tp-content-color, #000000);
+		font-weight: var(--tp-heading-text-weight, 500);
+		font-size: var(--tp-heading-text-size, 32px);
+		margin-bottom: var(--tp-heading-space-bottom,16px);
+	}
+
+	.tp-contact-form-3 .tp__form {
+		padding-top: var(--tp-form-top-padding, 0px);
+		padding-bottom: var(--tp-form-bottom-padding, 0px);
+		width: 100%;
+		max-width: 100%;
+		text-align: center;
+	}
+
+	.tp-contact-form-3 form {
+		gap: var(--tp-fields-gap, 12px);
+		display: flex;
+		flex-direction: column;
+	}
+
+	.tp-contact-form-3 input:not([type="checkbox"]),
+	.tp-contact-form-3 textarea {
+		background: var(--tp-input-background-color);
+		border: 1px solid var(--tp-input-border-color, #808080);
+		font-size: var(--tp-input-text-size, 16px);
+		color: var(--tp-input-color, #808080);
+		padding: 16px 12px;
+		font-weight: 400;
+		font-family: inherit;
+		resize: none;
+	}
+
+	.tp-contact-form-3 input::placeholder,
+	.tp-contact-form-3 textarea::placeholder {
+		color: var(--tp-input-color, #808080);
+	}
+
+	.tp-contact-form-3 .tp__checkboxes {
+		display: flex;
+		flex-wrap: wrap;
+		margin-top: 8px;
+		gap: 10px 40px;
+	}
+
+	.tp-contact-form-3 .tp__checkboxes > div { 
+		display: flex; 
+	}
+
+	.tp-contact-form-3 .tp__checkboxes-title {
+		font-size: var(--tp-checkbox-title-size, 18px); 
+		font-weight: var(--tp-checkbox-text-weight, 400);
+	}
+
+	.tp-contact-form-3 .tp__checkboxes input[type="checkbox"] {
+		width: var(--tp-checkbox-width, 24px);
+		accent-color: var(--tp-content-color, #000000);
+		margin-right: 8px;
+	}
+
+	.tp-contact-form-3 button[type="submit"] {
+		background-color: var(--tp-button-background-color, #000000);
+		max-width: var(--tp-button-max-width, 100%);
+		font-size: var(--tp-button-text-size, 16px);
+		font-weight: var(--tp-button-text-weight, 400);
+		color: var(--tp-button-text-color, #FFFFFF);
+		width: 100%;
+		padding-block: 15px;
+		outline: none;
+		margin-top: 10px;
+		cursor: pointer;
+		border: 1px solid transparent;
+		transition: 0.3s;
+	}
+
+	.tp-contact-form-3 .tp__information {
+		color: var(--tp-information-color, #525252);
+		font-weight: var(--tp-information-text-weight, 400);
+		font-size: var(--tp-information-text-size, 14px);
+		text-align: center;
+	}
+
+	.tp-contact-form-3 .tp__image-wrapper {
+		display: var(--tp-image-mobile, blocks);
+		background-color: #f8f8f8;
+		margin-top: 0;
+		position: relative;
+		aspect-ratio: 1/1;
+	}
+
+	.tp-contact-form-3 .tp__image-wrapper img,
+	.tp-contact-form-3 .tp__image-wrapper svg  {
+		position: absolute;
+		top: 0;
+		left: 0;
+		object-fit: cover;
+		object-position: center;
+		height: 100%;
+		width: 100%;
+	}
+
+	@media screen and (min-width: 768px) {
+		.tp-contact-form-3 .tp__container {
+			flex-direction: var(--tp-image-layout, row);
+			gap: 40px;
+		}
+
+		.tp-contact-form-3 .tp__form {
+			max-width: 450px;
+			text-align: left;
+		}
+
+		.tp-contact-form-3 .tp__image-wrapper {
+			aspect-ratio: auto;
+			max-width: 950px;
+			width: 100%;
+		}
+	}
+
+{% endstylesheet %}
+
+{%- capture html_id -%}
+	{%- if section.settings.html_id != blank -%}
+		id= "{{ section.settings.html_id | handleize }}"
+	{% endif %}
+{% endcapture %}
+
+<style>
+	#tp-{{ section.id }} {
+		--tp-background: {{ section.settings.background_gradient | default: section.settings.background_color }};
+		--tp-content-color: {{ section.settings.content_color }};
+		--tp-section-width: {{ section.settings.section_width }}px;
+		--tp-padding-top: {{ section.settings.mobile_top_padding }}px;
+		--tp-padding-bottom: {{ section.settings.mobile_bottom_padding }}px;
+		--tp-form-top-padding: {{ section.settings.mobile_form_top_padding }}px;
+		--tp-form-bottom-padding: {{ section.settings.mobile_form_bottom_padding }}px;
+		--tp-fields-gap: {{ section.settings.fields_gap }}px;
+		--tp-heading-text-size: {{ section.settings.mobile_form_heading_text_size }}px;
+		--tp-heading-text-weight: {{ section.settings.heading_text_weight }};
+		--tp-heading-space-bottom: {{ section.settings.mobile_title_space_bottom }}px;
+		--tp-input-text-size: {{ section.settings.input_text_size }}px;
+		--tp-input-background-color: {{ section.settings.input_background_color }};
+		--tp-input-color: {{ section.settings.input_color }};
+		--tp-input-border-color: {{ section.settings.input_border_color }};
+		--tp-checkbox-width : {{ section.settings.checkboxes_size }}px;
+		--tp-checkbox-title-size: {{ section.settings.mobile_checkbox_title_size }}px;
+		--tp-checkbox-text-weight: {{ section.settings.checkbox_title_text_weight }};
+		--tp-button-text-size: {{ section.settings.button_text_size }}px;
+		--tp-button-text-color: {{ section.settings.button_text_color }};
+		--tp-button-text-weight: {{ section.settings.button_text_weight }};
+		--tp-button-max-width: {{ section.settings.button_max_width }}%;
+		--tp-button-background-color: {{ section.settings.button_background_color }};
+		--tp-information-color: {{ section.settings.information_color }};
+		--tp-information-text-weight: {{ section.settings.information_text_weight }};
+		--tp-information-text-size: {{ section.settings.mobile_information_text_size }}px;
+		--tp-image-mobile: {{ section.settings.image_on_mobile }};
+		--tp-image-layout: {{ section.settings.mobile_image_position }};
+	}
+
+	@media screen and (min-width: 768px) {
+		#tp-{{ section.id }} {
+			--tp-padding-top: {{ section.settings.desktop_top_padding }}px;
+			--tp-padding-bottom: {{ section.settings.desktop_bottom_padding }}px;
+			--tp-form-top-padding: {{ section.settings.desktop_form_top_padding }}px;
+			--tp-form-bottom-padding: {{ section.settings.desktop_form_bottom_padding }}px;
+			--tp-heading-text-size: {{ section.settings.desktop_form_heading_text_size }}px;
+			--tp-heading-space-bottom: {{ section.settings.desktop_title_space_bottom }}px;
+			--tp-checkbox-title-size: {{ section.settings.desktop_checkbox_title_size }}px;
+			--tp-information-text-size: {{ section.settings.desktop_information_text_size }}px;
+			--tp-image-layout: {{ section.settings.desktop_image_position }};
+		}
+	}
+</style>
+
+<div id="tp-{{ section.id }}" class="tp-{{ section.id }}">
+	<div {{ html_id }} class="tp__container {{ section.settings.html_class | strip }}">
+		<div class="tp__form">
+			{% if section.settings.form_heading != blank %}
+				<h2 class="tp__form-heading">{{ section.settings.form_heading }}</h2>
+			{% endif %}
+			{% form 'contact' %}
+				{% for block in section.blocks %}
+					{% case block.type %}
+						{% when "text" %}
+							<input type="text" name="contact[{{ block.settings.name | downcase | handleize }}]" {% if block.settings.required %}required{% endif %} placeholder="{{ block.settings.placeholder }}">
+						{% when "email" %}
+							<input type="email" name="contact[{{ block.settings.name | downcase | handleize }}]" {% if block.settings.required %}required{% endif %} placeholder="{{ block.settings.placeholder }}">
+						{% when "phone" %}
+							<input type="tel" name="contact[{{ block.settings.name | downcase | handleize }}]" {% if block.settings.required %}required{% endif %} placeholder="{{ block.settings.placeholder }}">
+						{% when "textarea" %}
+							<textarea name="contact[{{ block.settings.name | downcase | handleize }}]" rows="{{ block.settings.height }}" {% if block.settings.required %}required{% endif %} placeholder="{{ block.settings.placeholder }}"></textarea>
+					{% endcase %}
+				{% endfor %}
+
+				<div class="tp__checkboxes-wrapper">
+					{% assign blocks_size = section.blocks | where: "type", "checkbox" | size %}
+					{% if blocks_size > 0 %}
+						{% if section.settings.checkboxes_title != blank %}
+							<p class="tp__checkboxes-title">{{ section.settings.checkboxes_title }}</p>
+						{% endif %}
+	
+						<div class="tp__checkboxes">
+							{% for block in section.blocks %}
+								{% case block.type %}
+									{% when "checkbox" %}
+										<div>
+											<input type="checkbox" value="{{ block.settings.label }}" name="contact[best-time-to-call]" id="{{ block.settings.label | downcase | handleize }}" {% if block.settings.required %}required{% endif %}>
+											<label for="{{ block.settings.label | downcase | handleize }}">{{ block.settings.label }}</label>
+										</div>
+								{% endcase %}
+							{% endfor %}
+						</div>
+					{% endif %}
+				</div> 
+
+				<button type="submit" class="tp__button--{{ section.settings.button_hover }}">{{ section.settings.submit_button_text }}</button>
+		
+				{% if section.settings.information != blank %}
+					<p class="tp__information">{{ section.settings.information }}</p>
+				{% endif %}
+			{% endform %}
+		</div>
+
+		{% if section.settings.image_link != blank %}
+			<a {% if section.settings.image_link_new_tab %}target="_blank"{% endif %} href="{{ section.settings.image_link }}" class="tp__image-wrapper">
+		{% else %}
+			<div class="tp__image-wrapper">
+		{% endif %}
+			{% if section.settings.image != blank %}
+				{{ section.settings.image | image_url: width: 953 | image_tag: loading: 'lazy', class: tp_image }}
+			{% else %}
+				{{ 'image' | placeholder_svg_tag: 'tp__image' }}
+			{% endif %}
+		{% if section.settings.image_link != blank %}
+			</a>
+		{% else %}
+			</div>
+		{% endif %}
+	</div>
+</div>
+
+{% schema %}
+{
+	"name": "TP - Contact form 3",
+	"class": "tp-section tp-contact-form-3",
+	"tag": "section",
+	"disabled_on": {
+		"groups": [
+			"header"
+		]
+	},
+	"settings": [ 
+		{
+			"type": "header",
+			"content": "Section information",
+      "info": "Codename: tp-contact-form-3. For detailed documentation and best practices on using this section, please visit the [Section Guide](https://themepack.co/sections/contact-form-3)"
+		},
+		{
+			"type": "inline_richtext",
+			"id": "form_heading",
+			"label": "Heading"
+		},
+		{
+			"type": "number",
+			"id": "desktop_form_heading_text_size",
+			"label": "Desktop: heading text size (px)",
+			"default": 32
+		},
+		{
+			"type": "number",
+			"id": "mobile_form_heading_text_size",
+			"label": "Mobile: heading text size (px)",
+			"default": 32
+		},
+		{
+			"type": "select",
+			"id": "heading_text_weight",
+			"label": "Heading text weight",
+			"options": [
+				{
+					"value": "100",
+					"label": "Thin"
+				},
+				{
+					"value": "200",
+					"label": "Extra Light"
+				},
+				{
+					"value": "300",
+					"label": "Light"
+				},
+				{
+					"value": "400",
+					"label": "Regular"
+				},
+				{
+					"value": "500",
+					"label": "Medium"
+				},
+				{
+					"value": "600",
+					"label": "Semi bold"
+				},
+				{
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra Bold"
+        },
+        {
+          "value": "900",
+          "label": "Black"
+        }
+			],
+			"default": "500"
+		},
+		{
+			"type": "range",
+			"id": "desktop_title_space_bottom",
+			"label": "Desktop: space between title and form",
+			"step": 1,
+			"min": 0,
+			"max": 50,
+			"default": 16,
+			"unit": "px"
+		},
+		{
+			"type": "range",
+			"id": "mobile_title_space_bottom",
+			"label": "Mobile: space between title and form",
+			"step": 1,
+			"min": 0,
+			"max": 50,
+			"default": 16,
+			"unit": "px"
+		},
+		{
+			"type": "number",
+			"id": "input_text_size",
+			"label": "Input text size (px)",
+			"default": 16
+		},
+		{
+			"type": "range",
+			"step": 2,
+			"id": "fields_gap",
+			"label": "Gap beween fields",
+			"min": 0,
+			"max": 100,
+			"default": 12,
+			"unit": "px"
+		},
+		{
+			"type": "inline_richtext",
+			"id": "checkboxes_title",
+			"label": "Checkbox title"
+		},
+		{
+			"type": "number",
+			"id": "desktop_checkbox_title_size",
+			"label": "Desktop: checkbox title size (px)",
+			"default": 18
+		},
+		{
+			"type": "number",
+			"id": "mobile_checkbox_title_size",
+			"label": "Mobile: checkbox title size (px)",
+			"default": 18
+		},
+		{
+			"type": "select",
+			"id": "checkbox_title_text_weight",
+			"label": "Checkbox title text weight",
+			"options": [
+				{
+					"value": "100",
+					"label": "Thin"
+				},
+				{
+					"value": "200",
+					"label": "Extra Light"
+				},
+				{
+					"value": "300",
+					"label": "Light"
+				},
+				{
+					"value": "400",
+					"label": "Regular"
+				},
+				{
+					"value": "500",
+					"label": "Medium"
+				},
+				{
+					"value": "600",
+					"label": "Semi bold"
+				},
+				{
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra Bold"
+        },
+        {
+          "value": "900",
+          "label": "Black"
+        }
+			],
+			"default": "400"
+		},
+		{
+			"type": "range",
+			"min": 10,
+			"max": 30,
+			"step": 1,
+			"id": "checkboxes_size",
+			"label": "Checkbox size",
+			"default": 24,
+			"unit": "px"
+		},
+		{
+			"type": "text",
+			"id": "submit_button_text",
+			"label": "Button Text",
+			"default": "Submit"
+		},
+		{
+			"type": "number",
+			"id": "button_text_size",
+			"label": "Button text size (px)",
+			"default": 16
+		},
+		{
+			"type": "range",
+			"min": 10,
+			"max": 100,
+			"step": 10,
+			"id": "button_max_width",
+			"label": "Button width",
+			"default": 100,
+			"unit": "%"
+		},
+		{
+			"type": "select",
+			"id": "button_text_weight",
+			"label": "Button text weight",
+			"options": [
+				{
+					"value": "100",
+					"label": "Thin"
+				},
+				{
+					"value": "200",
+					"label": "Extra Light"
+				},
+				{
+					"value": "300",
+					"label": "Light"
+				},
+				{
+					"value": "400",
+					"label": "Regular"
+				},
+				{
+					"value": "500",
+					"label": "Medium"
+				},
+				{
+					"value": "600",
+					"label": "Semi bold"
+				},
+				{
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra Bold"
+        },
+        {
+          "value": "900",
+          "label": "Black"
+        }
+			],
+			"default": "400"
+		},
+		{
+			"type": "select",
+			"id": "button_hover",
+			"label": "Button hover",
+			"options": [
+				{
+					"value": "none",
+					"label": "None"
+				},
+				{
+					"value" : "invert",
+					"label": "Invert"
+				},
+				{
+					"value": "fade",
+					"label": "Fade"
+				}
+			]
+		},
+		{
+			"type": "inline_richtext",
+			"id": "information",
+			"label": "Information"
+		},
+		{
+			"type": "number",
+			"id": "desktop_information_text_size",
+			"label": "Desktop: information text size (px)",
+			"default": 14
+		},
+		{
+			"type": "number",
+			"id": "mobile_information_text_size",
+			"label": "Mobile: information text size (px)",
+			"default": 14
+		},
+		{
+			"type": "select",
+			"id": "information_text_weight",
+			"label": "Information text weight",
+			"options": [
+				{
+					"value": "100",
+					"label": "Thin"
+				},
+				{
+					"value": "200",
+					"label": "Extra Light"
+				},
+				{
+					"value": "300",
+					"label": "Light"
+				},
+				{
+					"value": "400",
+					"label": "Regular"
+				},
+				{
+					"value": "500",
+					"label": "Medium"
+				},
+				{
+					"value": "600",
+					"label": "Semi bold"
+				},
+				{
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra Bold"
+        },
+        {
+          "value": "900",
+          "label": "Black"
+        }
+			],
+			"default": "400"
+		},
+		{
+			"type": "header",
+			"content": "Image"
+		},
+		{
+			"type": "image_picker",
+			"id": "image",
+			"label": "Image"
+		},
+		{
+			"type": "url",
+			"id": "image_link",
+			"label": "Link"
+		},
+		{
+      "type": "checkbox",
+      "id": "image_link_new_tab",
+      "label": "Open in new tab",
+      "default": false
+    },
+		{
+			"type": "select",
+			"id": "image_filter",
+			"label": "Filter",
+			"options": [
+				{
+					"value": "none",
+					"label": "None"
+				},
+				{
+					"value": "grayscale",
+					"label": "Grayscale"
+				},
+				{
+					"value": "sepia",
+					"label": "Sepia"
+				},
+				{
+					"value": "invert",
+					"label": "Invert"
+				}
+			],
+			"default": "none"
+		},
+		{
+			"type": "select",
+			"id": "image_on_mobile",
+			"label": "Mobile: image",
+			"options": [
+				{
+					"label": "Visible",
+					"value": "block"
+				},
+				{
+					"label": "Hidden",
+					"value": "none"
+				}
+			],
+			"default" : "block"
+		},
+		{
+			"type" : "header",
+			"content": "Design"
+		},
+		{
+			"type": "color",
+			"label": "Background color",
+			"id": "background_color",
+			"default": "#FFFFFF"
+		},
+		{
+			"type": "color_background",
+			"id": "background_gradient",
+			"label": "Background gradient",
+			"info": "If set, overrides the background color."
+		},
+		{
+			"type": "color",
+			"id": "input_background_color",
+			"label": "Input background color",
+			"default": "#FFFFFF"
+		},
+		{
+			"type": "color",
+			"id": "input_color",
+			"label": "Input text color",
+			"default": "#808080"
+		},
+		{
+			"type": "color",
+			"id": "input_border_color",
+			"label": "Input border color",
+			"default": "#808080"
+		},
+		{
+			"type": "color",
+			"label": "Content color",
+			"id": "content_color",
+			"default": "#000000"
+		},
+		{
+			"type": "color",
+			"label": "Button text color",
+			"id": "button_text_color",
+			"default": "#FFFFFF"
+		},
+		{
+			"type": "color",
+			"label": "Button background color",
+			"id": "button_background_color",
+			"default": "#000000"
+		},
+		{
+			"type": "color",
+			"id": "information_color",
+			"label": "Information color",
+			"default": "#525252"
+		},
+		{
+			"type": "header",
+			"content": "Section layout"
+		},
+		{
+			"type": "number" ,
+			"id": "section_width",
+			"label": "Section width (px)",
+			"default": 1440
+		},
+		{
+			"type": "select",
+			"id": "desktop_image_position",
+			"label": "Desktop: image position",
+			"options": [
+				{
+					"label": "Image first",
+					"value": "row-reverse"
+				},
+				{
+					"label": "Image Second",
+					"value": "row"
+				}
+			],
+			"default": "row"
+		},
+		{
+			"type": "select",
+			"id": "mobile_image_position",
+			"label": "Mobile: image position",
+			"options": [
+				{
+					"label": "Image first",
+					"value": "column-reverse"
+				},
+				{
+					"label": "Image Second",
+					"value": "column"
+				}
+			],
+			"default": "column"
+		},
+		{
+			"type": "header",
+			"content": "Form padding"
+		},
+		{
+			"type": "range",
+			"id": "desktop_form_top_padding",
+			"label": "Desktop: form top padding",
+			"min": 0,
+			"max": 100,
+			"step": 2,
+			"default": 0,
+			"unit": "px"
+		},
+		{
+			"type": "range",
+			"id": "mobile_form_top_padding",
+			"label": "Mobile: form top padding",
+			"min": 0,
+			"max": 100,
+			"step": 2,
+			"default": 0,
+			"unit": "px"
+		},
+		{
+			"type": "range",
+			"id": "desktop_form_bottom_padding",
+			"label": "Desktop: form bottom padding",
+			"min": 0,
+			"max": 100,
+			"step": 2,
+			"default": 0,
+			"unit": "px"
+		},
+		{
+			"type": "range",
+			"id": "mobile_form_bottom_padding",
+			"label": "Mobile: form bottom padding",
+			"min": 0,
+			"max": 100,
+			"step": 2,
+			"default": 0,
+			"unit": "px"
+		},
+		{
+			"type": "header",
+			"content": "Section padding"
+		},
+		{
+			"type": "range",
+			"id": "desktop_top_padding",
+			"label": "Desktop: top padding",
+			"min": 0,
+			"max": 200,
+			"step": 2,
+			"default": 0,
+			"unit": "px"
+		},
+		{
+			"type": "range",
+			"id": "mobile_top_padding",
+			"label": "Mobile: top padding",
+			"max": 200,
+			"min": 0,
+			"step": 2,
+			"default": 0,
+			"unit": "px"
+		},
+		{
+			"type": "range",
+			"id": "desktop_bottom_padding",
+			"label": "Desktop: bottom padding",
+			"max": 200,
+			"min": 0,
+			"step": 2,
+			"default": 0,
+			"unit": "px"
+		},
+		{
+			"type": "range",
+			"id": "mobile_bottom_padding",
+			"label": "Mobile: bottom padding",
+			"max": 200,
+			"min": 0,
+			"step": 2,
+			"default": 0,
+			"unit": "px"
+		},
+		{
+			"type": "header",
+			"content": "Advanced"
+		},
+		{
+			"type": "text",
+			"id": "html_id",
+			"label": "HTML ID",
+			"info": "Unique identifier for linking directly to this section. Leave blank if unsure."
+		},
+		{
+			"type": "text",
+			"id": "html_class",
+			"label": "HTML Class",
+			"info": "Comma separated list of classes."
+		}
+	],
+	"blocks": [
+		{
+			"type": "text",
+			"name": "Text Field",
+			"settings": [
+				{
+					"type": "text",
+					"id": "placeholder",
+					"label": "Placeholder"
+				},
+				{
+					"type": "text",
+					"id": "name",
+					"label": "Name"
+				},
+				{
+          "type": "checkbox",
+          "id": "required",
+          "label": "Required",
+          "default": false
+        }
+			]
+		},
+		{
+			"type": "email",
+			"name": "Email",
+			"settings": [
+				{
+					"type": "text",
+					"id": "placeholder",
+					"label": "Placeholder"
+				},
+				{
+					"type": "text",
+					"id": "name",
+					"label": "Name"
+				},
+				{
+          "type": "checkbox",
+          "id": "required",
+          "label": "Required",
+          "default": false
+        }
+			]
+		},
+		{
+			"type": "phone",
+			"name": "Phone",
+			"settings": [
+				{
+					"type": "text",
+					"id": "placeholder",
+					"label": "Placeholder"
+				},
+				{
+					"type": "text",
+					"id": "name",
+					"label": "Name"
+				},
+				{
+          "type": "checkbox",
+          "id": "required",
+          "label": "Required",
+          "default": false
+        }
+			]
+		},
+		{
+			"type": "textarea",
+			"name": "Textarea",
+			"settings": [
+				{
+					"type":"text",
+					"id": "placeholder",
+					"label": "Placeholder"
+				},
+				{
+					"type": "text",
+					"id": "name",
+					"label": "Name"
+				},
+				{
+					"type": "range",
+					"id": "height",
+					"label": "Height",
+					"min": 2,
+					"max": 20,
+					"step": 1,
+					"default": 6
+				},
+				{
+          "type": "checkbox",
+          "id": "required",
+          "label": "Required",
+          "default": false
+        }
+			]
+		},
+		{
+			"type": "checkbox",
+			"name": "Checkbox",
+			"settings": [
+				{
+					"type": "text",
+					"id": "label",
+					"label": "Label"
+				},
+				{
+					"type": "checkbox",
+					"id": "required",
+					"label": "Required",
+					"default": false
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "TP - Contact form 3",
+			"settings": {
+				"form_heading" : "Write to Us",
+				"checkboxes_title": "When is the best time to reach you?",
+				"information": "Fields marked with a * are compulsory"
+			},
+			"blocks": [
+				{
+					"type": "text",
+					"settings": {
+						"placeholder": "Full name*",
+						"name": "First Name",
+						"required": false
+					}
+				},
+				{
+					"type": "email",
+					"settings": {
+						"placeholder": "Email address*",
+						"name": "Email",
+						"required": false
+					}
+				},	
+				{
+					"type": "phone",
+					"settings": {
+						"placeholder": "Phone Number",
+						"name": "Phone",
+						"required": false
+					}
+				},
+				{
+					"type": "textarea",
+					"settings": {
+						"placeholder": "Write your message*",
+						"name": "Message",
+						"required": false
+					}
+				},
+				{
+					"type": "checkbox",
+					"settings": {
+						"label": "Morning",
+						"required": "false"
+					}
+				},
+					{
+					"type": "checkbox",
+					"settings": {
+						"label": "Afternoon",
+						"required": "false"
+					}
+				},
+					{
+					"type": "checkbox",
+					"settings": {
+						"label": "Evening",
+						"required": "false"
+					}	
+				}
+			]
+		}
+	]
+}
+{% endschema %}

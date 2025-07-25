@@ -1,0 +1,183 @@
+<div class="wishit-instagram-follow" style="background-color: {{ section.settings.background-color }}">
+  <div class="page-width">
+    <div id="wishit-instagram-follow-inner">
+      {% if section.settings.svg != blank %}
+        <div class="wishit-instagram-svg">
+          {{ section.settings.svg }}
+        </div>
+      {% endif %}  
+      {% if section.settings.text != blank %}
+        <div class="wishit-instagram-text">
+          {{ section.settings.text }}
+        </div>
+      {% endif %}  
+      {% if section.settings.button-text != blank %}
+        <div class="wishit-instagram-follow-button">
+          <a target="_blank" id="wishit-follow-button" onclick="wishitInstagramfollow()" href="https://www.instagram.com/{{ section.settings.instagram-username | replace:  "https://www.instagram.com/", "" }}" style="color: {{ section.settings.button-text-color }}; background-color: {{ section.settings.button-background-color }};">{{ section.settings.button-text }}</a>
+        </div>
+      {% endif %}
+    </div>
+    {% if section.settings.discount-code != blank %}
+    <div id="wishit-discount-code" class="wishit-instagram-text">
+      {{ section.settings.discount-code }}
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+#wishit-discount-code{
+  display: none;
+  font-weight: bold;
+}
+.wishit-instagram-svg svg, .wishit-instagram-svg path{
+  fill: {{ section.settings.icon-color }};
+}
+.wishit-instagram-svg svg {
+    zoom: {{ section.settings.text-size | divided_by: 12.0 }};
+}
+#wishit-instagram-follow-inner {
+    display: flex;
+}
+#wishit-instagram-follow-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.wishit-instagram-svg {
+    display: flex;
+    align-items: center;
+}
+.wishit-instagram-follow {
+    padding: 25px 0;
+} 
+.wishit-instagram-text {
+    padding: 0 15px;
+    font-size: {{ section.settings.text-size }}px;
+    color: {{section.settings.text-color }};
+    text-align: center;
+}
+.wishit-instagram-follow-button a {
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}  
+
+@media only screen and (max-width: 767px) {
+  .wishit-instagram-text {
+    padding: 0;
+    line-height: normal;
+    margin: 20px 0 30px;
+  }
+  .wishit-instagram-follow-button a {
+    display: block;
+  }
+}  
+</style>
+
+<script>
+  function wishitInstagramfollow(){
+    {% if section.settings.discount-code != blank %}
+    setTimeout(function(){
+      document.getElementById("wishit-discount-code").style.display = "block";
+      document.getElementById("wishit-instagram-follow-inner").style.display = "none";
+    },2000);
+    {% endif %}
+  }
+</script>
+{% schema %}
+  {
+    "name": "WishtIt Instagram Follow",
+    "settings": [
+      {
+        "type": "text",
+        "id": "instagram-username",
+        "label": "Instagram Username"
+      },
+      {
+        "type": "text",
+        "id": "discount-code",
+        "label": "Discount Code",
+        "info": "When customer click on 'follow' we will show this discount code. Make sure its valid working discount code."
+      },
+      {
+        "type": "color",
+        "id": "background-color",
+        "label": "Background Color"
+      },
+      {
+        "type": "header",
+         "content": "Text Settings"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text"
+      },
+      {
+        "type": "range",
+        "id": "text-size",
+        "min": 12,
+        "max": 36,
+        "step": 2,
+        "unit": "px",
+        "label": "Text Size",
+        "default": 24
+      },
+      {
+        "type": "color",
+        "id": "text-color",
+        "label": "Text Color",
+        "default": "#444444"
+      },
+      {
+        "type": "header",
+         "content": "Button Settings"
+      },
+      {
+        "type": "text",
+        "id": "button-text",
+        "label": "Button Text"
+      },
+      {
+        "type": "color",
+        "id": "button-text-color",
+        "label": "Button Text Color"
+      },
+      {
+        "type": "color",
+        "id": "button-background-color",
+        "label": "Button Background Color",
+        "default": "#0095F6"
+      },{
+        "type": "header",
+         "content": "Icon Settings"
+      },
+      {
+        "type": "color",
+        "id": "icon-color",
+        "label": "Icon Color",
+        "default": "#000000"
+      },
+      {
+        "type": "textarea",
+        "id": "svg",
+        "label": "Icon SVG",
+        "default": "<svg xmlns='http://www.w3.org/2000/svg'  viewBox='0 0 24 24' width='24px' height='24px'>    <path d='M 8 3 C 5.243 3 3 5.243 3 8 L 3 16 C 3 18.757 5.243 21 8 21 L 16 21 C 18.757 21 21 18.757 21 16 L 21 8 C 21 5.243 18.757 3 16 3 L 8 3 z M 8 5 L 16 5 C 17.654 5 19 6.346 19 8 L 19 16 C 19 17.654 17.654 19 16 19 L 8 19 C 6.346 19 5 17.654 5 16 L 5 8 C 5 6.346 6.346 5 8 5 z M 17 6 A 1 1 0 0 0 16 7 A 1 1 0 0 0 17 8 A 1 1 0 0 0 18 7 A 1 1 0 0 0 17 6 z M 12 7 C 9.243 7 7 9.243 7 12 C 7 14.757 9.243 17 12 17 C 14.757 17 17 14.757 17 12 C 17 9.243 14.757 7 12 7 z M 12 9 C 13.654 9 15 10.346 15 12 C 15 13.654 13.654 15 12 15 C 10.346 15 9 13.654 9 12 C 9 10.346 10.346 9 12 9 z'/></svg>"
+      }
+    ],
+    "presets": [
+      {
+        "name": "WishtIt Instagram Follow"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

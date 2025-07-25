@@ -1,0 +1,108 @@
+{% doc %}
+  @prompt
+    Create a CSS code block to hide unwanted footer menus using display none or visibility hidden styles
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  {% if block.settings.hide_menu_1 %}
+    .footer__menu-1 {
+      display: {{ block.settings.hide_style }};
+    }
+  {% endif %}
+
+  {% if block.settings.hide_menu_2 %}
+    .footer__menu-2 {
+      display: {{ block.settings.hide_style }};
+    }
+  {% endif %}
+
+  {% if block.settings.hide_menu_3 %}
+    .footer__menu-3 {
+      display: {{ block.settings.hide_style }};
+    }
+  {% endif %}
+
+  {% if block.settings.hide_menu_4 %}
+    .footer__menu-4 {
+      display: {{ block.settings.hide_style }};
+    }
+  {% endif %}
+
+  {% if block.settings.custom_selector != blank %}
+    {{ block.settings.custom_selector }} {
+      display: {{ block.settings.hide_style }};
+    }
+  {% endif %}
+{% endstyle %}
+
+<div {{ block.shopify_attributes }}></div>
+
+{% schema %}
+{
+  "name": "Hide Footer Elements",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hide Footer Elements"
+    },
+    {
+      "type": "paragraph",
+      "content": "Use these settings to hide specific footer menus or elements"
+    },
+    {
+      "type": "select",
+      "id": "hide_style",
+      "label": "Hide method",
+      "options": [
+        {
+          "value": "none",
+          "label": "Display none (completely remove)"
+        },
+        {
+          "value": "hidden",
+          "label": "Visibility hidden (keep space)"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_menu_1",
+      "label": "Hide first footer menu",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_menu_2",
+      "label": "Hide second footer menu",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_menu_3",
+      "label": "Hide third footer menu",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_menu_4",
+      "label": "Hide fourth footer menu",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "custom_selector",
+      "label": "Custom CSS selector",
+      "info": "Enter a custom CSS selector to hide (e.g. .footer__payment, .footer__copyright)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hide Footer Elements"
+    }
+  ]
+}
+{% endschema %}

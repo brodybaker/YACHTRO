@@ -1,0 +1,96 @@
+/* Utility Classes for Shopify Theme */
+
+/* Layout Utilities */
+.u-full-width {
+  width: 100%;
+}
+
+.u-max-width-100 {
+  max-width: 100%;
+}
+
+.u-text-center {
+  text-align: center;
+}
+
+.u-text-left {
+  text-align: left;
+}
+
+.u-text-right {
+  text-align: right;
+}
+
+/* Spacing Utilities */
+.u-padding-40 {
+  padding: 4rem;
+}
+
+.u-padding-20 {
+  padding: 2rem;
+}
+
+.u-padding-12-20 {
+  padding: 1.2rem 2rem;
+}
+
+.u-margin-left-6 {
+  margin-left: 0.6rem;
+}
+
+/* Button Utilities */
+.u-btn-contact {
+  padding: 1.2rem 2rem;
+  background: #0278A4;
+  color: white;
+  border: none;
+  border-radius: 0.4rem;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.u-btn-contact:hover {
+  background: #025a7a;
+}
+
+/* Form Utilities */
+.u-form-input {
+  padding: 0 1rem;
+  border-radius: 9999px;
+  border: 1.5px solid #000;
+  background: #f7f7f7;
+  font-size: 1.5rem;
+  color: #111827;
+  height: 4.8rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Badge Utilities */
+.u-badge {
+  background: red;
+  color: white;
+  font-size: 1rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 50%;
+  margin-left: 0.6rem;
+  display: inline-block;
+}
+
+/* Responsive Utilities */
+@media screen and (max-width: 749px) {
+  .u-hide-mobile {
+    display: none;
+  }
+  
+  .u-padding-40 {
+    padding: 2rem;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .u-hide-desktop {
+    display: none;
+  }
+}
