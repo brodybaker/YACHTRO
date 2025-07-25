@@ -1,0 +1,146 @@
+<!-- sections/yacht-search.liquid -->
+
+<section
+  style="
+    background: #fff;
+    padding: 3rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+  "
+>
+  <form action="/search" method="GET" role="search" style="width: 100%; max-width: 700px;">
+    <!-- Search Input -->
+    <input
+      id="modern-search"
+      name="q"
+      type="search"
+      placeholder="Search yachts and boats..."
+      style="
+        width: 100%;
+        padding: 1.3rem 2rem;
+        font-size: 1.5rem;
+        border-radius: 9999px;
+        border: 2px solid black;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        font-weight: 500;
+        margin-bottom: 1rem;
+        background-color: #f9f9f9;
+        box-sizing: border-box;
+        height: 56px;
+      "
+      autocomplete="off"
+      spellcheck="false"
+    />
+
+    <!-- Buttons Container -->
+    <div style="display: flex; gap: 1rem; justify-content: center; width: 100%; max-width: 700px;">
+      <!-- Filters Toggle Button -->
+      <button
+        type="button"
+        id="filters-toggle"
+        aria-expanded="false"
+        aria-controls="filters-panel"
+        style="
+          background: #A9A9A9;
+          color: #000;
+          border: none;
+          border-radius: 9999px;
+          padding: 0 2rem;
+          font-weight: 600;
+          cursor: pointer;
+          font-size: 1.5rem;
+          height: 48px;
+          flex: 1;
+          transition: background-color 0.3s ease;
+        "
+        onclick="const panel = document.getElementById('filters-panel'); const expanded = this.getAttribute('aria-expanded') === 'true'; this.setAttribute('aria-expanded', !expanded); panel.style.display = expanded ? 'none' : 'grid';"
+      >
+        Filters
+      </button>
+
+      <!-- Submit Search Button -->
+      <button
+        type="submit"
+        style="
+          background: #2E8CAB;
+          color: #fff;
+          border: none;
+          border-radius: 9999px;
+          padding: 0 2rem;
+          font-weight: 700;
+          font-size: 1.5rem;
+          cursor: pointer;
+          height: 48px;
+          flex: 1;
+          box-sizing: border-box;
+        "
+      >
+        Search
+      </button>
+    </div>
+
+    <!-- Filters Panel -->
+    <div
+      id="filters-panel"
+      style="
+        display: none;
+        width: 100%;
+        max-width: 700px;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+        box-sizing: border-box;
+      "
+    >
+      {% assign input_style = "padding: 0 1rem; border-radius: 9999px; border: 1.5px solid black; background: #f7f7f7; font-size: 1.5rem; color: #111827; height: 48px; box-sizing: border-box; width: 100%;" %}
+
+      <select name="options[product_type]" style="{{ input_style }}">
+        <option value="">Product Type</option>
+        <option value="Powerboats">Powerboats</option>
+        <option value="Sailboats">Sailboats</option>
+      </select>
+
+      <select name="options[vendor]" style="{{ input_style }}">
+        <option value="">Brand</option>
+        <option value="Sunseeker">Sunseeker</option>
+        <option value="Ferretti">Ferretti</option>
+      </select>
+
+      <select name="collection" style="{{ input_style }}">
+        <option value="">Collection</option>
+        <option value="powerboats">Powerboats</option>
+        <option value="sailboats">Sailboats</option>
+      </select>
+
+      <input type="number" name="price_min" placeholder="Min Price" style="{{ input_style }}" />
+      <input type="number" name="price_max" placeholder="Max Price" style="{{ input_style }}" />
+
+      <input type="number" name="length_min" placeholder="Min Length" style="{{ input_style }}" />
+      <input type="number" name="length_max" placeholder="Max Length" style="{{ input_style }}" />
+
+      <select name="unit" style="{{ input_style }}">
+        <option value="ft">Feet</option>
+        <option value="m">Meters</option>
+      </select>
+    </div>
+  </form>
+</section>
+
+{% schema %}
+{
+  "name": "Yacht Search Filters",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Yacht Search Filters"
+    }
+  ]
+}
+{% endschema %}
+
+

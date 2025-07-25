@@ -1,0 +1,247 @@
+{% doc %}
+  @prompt
+    Remove unwanted footer menus by hiding or removing extra menu sections from the footer area
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .footer-menu-manager-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+  
+  .footer-menu-manager-{{ ai_gen_id }} .hidden-menu {
+    display: none !important;
+  }
+  
+  .footer-menu-manager-{{ ai_gen_id }} .footer-menu-container {
+    display: grid;
+    grid-template-columns: repeat({{ block.settings.columns_desktop }}, 1fr);
+    gap: {{ block.settings.gap }}px;
+    padding: {{ block.settings.padding }}px 0;
+  }
+  
+  @media screen and (max-width: 749px) {
+    .footer-menu-manager-{{ ai_gen_id }} .footer-menu-container {
+      grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+    }
+  }
+{% endstyle %}
+
+<div class="footer-menu-manager-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="footer-menu-container">
+    {% if block.settings.menu_1_enabled %}
+      <div class="footer-menu-item">
+        {% if block.settings.menu_1 != blank %}
+          <h2 class="footer-menu-title">{{ block.settings.menu_1.title }}</h2>
+          <ul class="footer-menu-links">
+            {% for link in block.settings.menu_1.links %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+    
+    {% if block.settings.menu_2_enabled %}
+      <div class="footer-menu-item">
+        {% if block.settings.menu_2 != blank %}
+          <h2 class="footer-menu-title">{{ block.settings.menu_2.title }}</h2>
+          <ul class="footer-menu-links">
+            {% for link in block.settings.menu_2.links %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+    
+    {% if block.settings.menu_3_enabled %}
+      <div class="footer-menu-item">
+        {% if block.settings.menu_3 != blank %}
+          <h2 class="footer-menu-title">{{ block.settings.menu_3.title }}</h2>
+          <ul class="footer-menu-links">
+            {% for link in block.settings.menu_3.links %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+    
+    {% if block.settings.menu_4_enabled %}
+      <div class="footer-menu-item">
+        {% if block.settings.menu_4 != blank %}
+          <h2 class="footer-menu-title">{{ block.settings.menu_4.title }}</h2>
+          <ul class="footer-menu-links">
+            {% for link in block.settings.menu_4.links %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+    
+    {% if block.settings.menu_5_enabled %}
+      <div class="footer-menu-item">
+        {% if block.settings.menu_5 != blank %}
+          <h2 class="footer-menu-title">{{ block.settings.menu_5.title }}</h2>
+          <ul class="footer-menu-links">
+            {% for link in block.settings.menu_5.links %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Footer Menu Manager",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 4,
+      "label": "Columns on desktop"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "default": 30,
+      "unit": "px",
+      "label": "Gap between menus"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "default": 20,
+      "unit": "px",
+      "label": "Vertical padding"
+    },
+    {
+      "type": "header",
+      "content": "Menu 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_1_enabled",
+      "label": "Show menu 1",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "Menu"
+    },
+    {
+      "type": "header",
+      "content": "Menu 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_2_enabled",
+      "label": "Show menu 2",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Menu"
+    },
+    {
+      "type": "header",
+      "content": "Menu 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_3_enabled",
+      "label": "Show menu 3",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "menu_3",
+      "label": "Menu"
+    },
+    {
+      "type": "header",
+      "content": "Menu 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_4_enabled",
+      "label": "Show menu 4",
+      "default": false
+    },
+    {
+      "type": "link_list",
+      "id": "menu_4",
+      "label": "Menu"
+    },
+    {
+      "type": "header",
+      "content": "Menu 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_5_enabled",
+      "label": "Show menu 5",
+      "default": false
+    },
+    {
+      "type": "link_list",
+      "id": "menu_5",
+      "label": "Menu"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer Menu Manager"
+    }
+  ]
+}
+{% endschema %}

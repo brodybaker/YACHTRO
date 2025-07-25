@@ -1,0 +1,32 @@
+<!-- sections/product-grid.liquid -->
+<section class="px-6 py-10 bg-white">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    {% for product in collections.all.products limit:6 %}
+      <div class="relative rounded-xl overflow-hidden shadow hover:shadow-lg transition duration-300 group">
+        <a href="{{ product.url }}">
+          <img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.title }}" class="w-full h-60 object-cover" />
+        </a>
+        <div class="absolute top-3 left-3 bg-white px-3 py-1 rounded-md text-xs font-semibold text-gray-700 shadow">
+          {{ product.vendor }}
+        </div>
+        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent px-4 py-3 text-white">
+          <p class="text-sm font-semibold">
+            {{ product.title }}
+          </p>
+          {% if product.price > 0 %}
+            <p class="text-lg font-bold">{{ product.price | money }}</p>
+          {% else %}
+            <p class="text-lg font-semibold italic">Request price</p>
+          {% endif %}
+          <p class="text-xs mt-1 text-gray-200">{{ product.metafields.custom.location }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+  .group:hover .shadow {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+</style>

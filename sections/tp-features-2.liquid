@@ -1,0 +1,643 @@
+{% comment %}
+  {
+  "name": "Features 2",
+  "version": "1.0.0",
+  "url": "https://themepack.co/section/features-2",
+  "author": "Themepack",
+  "license": "MIT"
+  }
+{% endcomment %}
+
+{%- liquid
+  assign image_class = 'tp__section-image '
+
+  if section.settings.image_filter != blank
+    assign image_class = image_class | append: ' tp__filter--' | append: section.settings.image_filter
+  endif
+-%}
+
+{%- capture html_id -%}
+  {%- if section.settings.html_id != blank -%}
+    id="{{ section.settings.html_id | handleize }}"
+  {%- endif -%}
+{%- endcapture -%}
+
+{% stylesheet %}
+  .tp-features-2 .tp__section-wrapper {
+    max-width: var(--tp-section-width, 1440px);
+    flex-direction: var(--tp-layout-direction, row);
+    gap: var(--tp-section-gap, 40px);
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .tp-features-2 .tp__features-grid {
+    grid-template-columns: repeat(var(--tp-grid-columns, 2), 1fr);
+    gap: var(--tp-grid-row-gap) var(--tp-grid-column-gap, 32px);
+    padding-inline: 20px;
+    display: grid;
+    width: 100%;
+  }
+
+  .tp-features-2 a {
+    color: inherit;
+  }
+
+  .tp-features-2 .tp__image-wrapper {
+    height: var(--tp-image-height, 400px);
+    width: 100%;
+  }
+
+  .tp-features-2 .tp__section-image {
+    filter: var(--tp-image-filter, none);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: #F5F5F5;
+  }
+
+  .tp-features-2 .tp__feature-card {
+    text-align: var(--tp-content-alignment, center);
+  }
+
+  .tp-features-2 .tp__feature-icon {
+    width: var(--tp-icon-size, 64px);
+    height: var(--tp-icon-size, 64px);
+    margin: 0 auto var(--tp-icon-gap, 15px);
+  }
+
+  .tp-features-2 .tp__feature-title {
+    font-size: var(--tp-title-size, 24px);
+    color: var(--tp-title-color, #000000);
+    margin: 0 0 var(--tp-title-gap, 10px);
+  }
+
+  .tp-features-2 .tp__feature-description {
+    font-size: var(--tp-description-size, 16px);
+    color: var(--tp-text-color, #666666);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .tp-features-2 .tp__filter--grayscale { filter: grayscale(100%); }
+  .tp-features-2 .tp__filter--sepia { filter: sepia(100%) contrast(1.2); }
+  .tp-features-2 .tp__filter--invert { filter: invert(100%); }
+
+  @media screen and (min-width: 1024px) {
+    .tp-features-2 .tp__section-wrapper {
+      flex-direction: var(--tp-layout-direction, row);
+      flex-wrap: nowrap;
+    }
+
+    .tp-features-2 .tp__features-grid,
+    .tp-features-2 .tp__image-wrapper {
+      flex-basis: 50%;
+    }
+  }
+{% endstylesheet %}
+
+<style>
+  #tp-{{ section.id }} {
+    --tp-background-color: {{ section.settings.background_gradient | default: section.settings.background_color }};
+    --tp-content-alignment: {{ section.settings.content_alignment }};
+    --tp-layout-direction: {{ section.settings.mobile_layout_direction }};
+    --tp-section-width: {{ section.settings.section_width }}px;
+    --tp-padding-top: {{ section.settings.mobile_top_padding }}px;
+    --tp-padding-bottom: {{ section.settings.mobile_bottom_padding }}px;
+    --tp-grid-column-gap: {{ section.settings.mobile_grid_column_gap }}px;
+    --tp-grid-row-gap: {{ section.settings.mobile_grid_row_gap }}px;
+    --tp-grid-columns: {{ section.settings.mobile_columns }};
+    --tp-title-size: {{ section.settings.mobile_title_size }}px;
+    --tp-description-size: {{ section.settings.mobile_description_size }}px;
+    --tp-title-color: {{ section.settings.title_color }};
+    --tp-text-color: {{ section.settings.description_color }};
+    --tp-icon-size: {{ section.settings.mobile_icon_size }}px;
+    --tp-icon-gap: {{ section.settings.mobile_icon_gap }}px;
+    --tp-title-gap: {{ section.settings.mobile_title_gap }}px;
+    --tp-section-gap: {{ section.settings.mobile_section_gap }}px;
+    --tp-image-height: {{ section.settings.mobile_image_height }}px;
+
+    background: var(--tp-background-color);
+    padding-block: var(--tp-padding-top) var(--tp-padding-bottom);
+  }
+
+  @media screen and (min-width: 768px) {
+    #tp-{{ section.id }} {
+      --tp-grid-columns: {{ section.settings.desktop_columns }};
+      --tp-padding-top: {{ section.settings.desktop_top_padding }}px;
+      --tp-padding-bottom: {{ section.settings.desktop_bottom_padding }}px;
+      --tp-grid-column-gap: {{ section.settings.desktop_grid_column_gap }}px;
+      --tp-grid-row-gap: {{ section.settings.desktop_grid_row_gap }}px;
+      --tp-title-size: {{ section.settings.desktop_title_size }}px;
+      --tp-description-size: {{ section.settings.desktop_description_size }}px;
+      --tp-icon-size: {{ section.settings.desktop_icon_size }}px;
+      --tp-icon-gap: {{ section.settings.desktop_icon_gap }}px;
+      --tp-title-gap: {{ section.settings.desktop_title_gap }}px;
+      --tp-section-gap: {{ section.settings.desktop_section_gap }}px;
+      --tp-image-height: {{ section.settings.desktop_image_height }}px;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    #tp-{{ section.id }} {
+      --tp-layout-direction: {{ section.settings.desktop_layout_direction }};
+    }
+  }
+</style>
+
+<div id="tp-{{ section.id }}" class="tp-{{ section.id }}">
+  <div {{ html_id }} class="{{ 'tp__section-wrapper ' | append: section.settings.html_class | strip }}">
+    <div class="tp__features-grid">
+      {%- for block in section.blocks -%}
+        <article class="tp__feature-card">
+          {%- if block.settings.icon != blank -%}
+            {{ block.settings.icon | image_url: width: block.settings.icon.width | image_tag: loading: 'lazy', class: "tp__feature-icon" }}
+          {%- endif -%}
+
+          {%- if block.settings.title != blank -%}
+            <h3 class="tp__feature-title">{{ block.settings.title }}</h3>
+          {%- endif -%}
+
+          {%- if block.settings.description != blank -%}
+            <p class="tp__feature-description">{{ block.settings.description }}</p>
+          {%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.image_link != blank -%}
+      <a href="{{ section.settings.image_link }}" target="{{ section.settings.product_target }}" class="tp__image-wrapper">
+    {%- else -%}
+      <div class="tp__image-wrapper">
+    {%- endif -%}
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: section.settings.image.width | image_tag: loading: 'lazy', sizes: '(min-width: 768) 50vw, 100vw', widths: '180, 360, 540, 720, 900, 1080', class: image_class, alt: section.settings.image.alt }}
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'tp__section-image' }}
+      {%- endif -%}
+    {%- if section.settings.image_link != blank -%}
+      </a>
+    {%- else -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "TP - Features 2",
+    "class": "tp-section tp-features-2",
+    "tag": "section",
+    "disabled_on": {
+      "groups": ["header", "footer"]
+    },
+    "settings": [
+      {
+        "type": "header",
+        "content": "Section information",
+        "info": "Codename: tp-features-2. For detailed documentation and best practices on using this section, please visit the [Section Guide](https://themepack.co/sections/features-2)."
+      },
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "select",
+        "id": "desktop_layout_direction",
+        "label": "Desktop: Image position",
+        "options": [
+          {
+            "value": "row-reverse",
+            "label": "Left"
+          }, {
+            "value": "row",
+            "label": "Right"
+          }
+        ],
+        "default": "row"
+      },
+      {
+        "type": "select",
+        "id": "mobile_layout_direction",
+        "label": "Mobile: Image position",
+        "options": [
+          {
+            "value": "column-reverse",
+            "label": "Top"
+          }, {
+            "value": "column",
+            "label": "Bottom"
+          }
+        ],
+        "default": "column"
+      },
+      {
+        "type": "header",
+        "content": "Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "select",
+        "id": "image_filter",
+        "label": "Image filter",
+        "options": [
+          {
+            "value": "none",
+            "label": "None"
+          },
+          {
+            "value": "grayscale",
+            "label": "Grayscale"
+          },
+          {
+            "value": "sepia",
+            "label": "Sepia"
+          },
+          {
+            "value": "invert",
+            "label": "Invert"
+          }
+        ],
+        "default": "none"
+      },
+      {
+        "type": "url",
+        "id": "image_link",
+        "label": "Image link",
+        "info": "If set, the image will be clickable."
+      },
+      {
+        "type": "select",
+        "id": "product_target",
+        "label": "Open product in:",
+        "options": [
+          {
+            "value": "_self",
+            "label": "Same tab"
+          },
+          {
+            "value": "_blank",
+            "label": "New tab"
+          }
+        ],
+        "default": "_self"
+      },
+      {
+        "type": "range",
+        "id": "desktop_image_height",
+        "min": 200,
+        "max": 1000,
+        "step": 10,
+        "unit": "px",
+        "label": "Desktop: Image height",
+        "default": 400
+      },
+      {
+        "type": "range",
+        "id": "mobile_image_height",
+        "min": 200,
+        "max": 600,
+        "step": 20,
+        "unit": "px",
+        "label": "Mobile: Image height",
+        "default": 300
+      },
+      {
+        "type": "select",
+        "id": "content_alignment",
+        "label": "Content alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          }, {
+            "value": "center",
+            "label": "Center"
+          }, {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "number",
+        "id": "desktop_title_size",
+        "label": "Desktop: title size (px)",
+        "default": 24
+      },
+      {
+        "type": "number",
+        "id": "mobile_title_size",
+        "label": "Mobile: title size (px)",
+        "default": 20
+      },
+      {
+        "type": "number",
+        "id": "desktop_description_size",
+        "label": "Desktop: description size (px)",
+        "default": 16
+      },
+      {
+        "type": "number",
+        "id": "mobile_description_size",
+        "label": "Mobile: description size (px)",
+        "default": 14
+      },
+      {
+        "type": "range",
+        "id": "desktop_icon_size",
+        "min": 40,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "Desktop: icon size",
+        "default": 64
+      },
+      {
+        "type": "range",
+        "id": "mobile_icon_size",
+        "min": 32,
+        "max": 80,
+        "step": 4,
+        "unit": "px",
+        "label": "Mobile: icon size",
+        "default": 48
+      },
+      {
+        "type": "header",
+        "content": "Design"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color_background",
+        "id": "background_gradient",
+        "label": "Background gradient",
+        "info": "If set, overrides the background color."
+      },
+      {
+        "type": "color",
+        "id": "title_color",
+        "label": "Title color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "description_color",
+        "label": "Description color",
+        "default": "#666666"
+      },
+      {
+        "type": "header",
+        "content": "Grid Layout"
+      },
+
+      {
+        "type": "range",
+        "id": "desktop_columns",
+        "min": 1,
+        "max": 6,
+        "step": 1,
+        "label": "Desktop: columns",
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "mobile_columns",
+        "min": 1,
+        "max": 3,
+        "step": 1,
+        "label": "Mobile: columns",
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "desktop_grid_column_gap",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Desktop: column gap",
+        "default": 32
+      },
+      {
+        "type": "range",
+        "id": "mobile_grid_column_gap",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Mobile: column gap",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "desktop_grid_row_gap",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Desktop: row gap",
+        "default": 32
+      },
+      {
+        "type": "range",
+        "id": "mobile_grid_row_gap",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Mobile: row gap",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "desktop_icon_gap",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Desktop: Space between icon and title",
+        "default": 15
+      },
+      {
+        "type": "range",
+        "id": "mobile_icon_gap",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Mobile: Space between icon and title",
+        "default": 15
+      },
+      {
+        "type": "range",
+        "id": "desktop_title_gap",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Desktop: Space between title and description",
+        "default": 10
+      },
+      {
+        "type": "range",
+        "id": "mobile_title_gap",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Mobile: Space between title and description",
+        "default": 10
+      },
+      {
+        "type": "header",
+        "content": "Section Layout"
+      },
+      {
+        "type": "number",
+        "id": "section_width",
+        "label": "Section width (px)",
+        "default": 1440
+      },
+      {
+        "type": "range",
+        "id": "desktop_section_gap",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Desktop: Space between grid and image",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "mobile_section_gap",
+        "min": 0,
+        "max": 60,
+        "step": 4,
+        "unit": "px",
+        "label": "Mobile: Space between grid and image",
+        "default": 24
+      },
+      {
+        "type": "header",
+        "content": "Section padding"
+      },
+      {
+        "type": "range",
+        "id": "desktop_top_padding",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Desktop: top padding",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "desktop_bottom_padding",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Desktop: bottom padding",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "mobile_top_padding",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Mobile: top padding",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "mobile_bottom_padding",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Mobile: bottom padding",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Advanced"
+      },
+      {
+        "type": "text",
+        "id": "html_id",
+        "label": "HTML ID",
+        "info": "Unique identifier for linking directly to this section"
+      },
+      {
+        "type": "text",
+        "id": "html_class",
+        "label": "HTML Class",
+        "info": "Additional CSS classes for styling"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "feature",
+        "name": "Feature",
+        "limit": 10,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "Icon",
+            "info": "Uploading SVG file is recommended for optimal quality."
+          },
+          {
+            "type": "inline_richtext",
+            "id": "title",
+            "label": "Title",
+            "default": "Feature Title"
+          },
+          {
+            "type": "inline_richtext",
+            "id": "description",
+            "label": "Description",
+            "default": "Describe your feature here"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "TP - Features 2",
+        "blocks": [
+          {
+            "type": "feature"
+          },
+          {
+            "type": "feature"
+          },
+          {
+            "type": "feature"
+          },
+          {
+            "type": "feature"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

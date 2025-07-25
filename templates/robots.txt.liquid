@@ -1,0 +1,78 @@
+# Robots.txt for {{ shop.name }} - Premier Yacht Sales
+# Generated on {{ 'now' | date: '%Y-%m-%d' }}
+
+User-agent: *
+Allow: /
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# Disallow admin and checkout areas
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /orders/
+Disallow: /account/
+Disallow: /services/
+Disallow: /wpm/
+Disallow: /cdn-cgi/
+Disallow: /.well-known/
+
+# Disallow search parameter pages to avoid duplicate content
+Disallow: /search?*
+Disallow: /*?sort_by=*
+Disallow: /*?page=*
+Disallow: /*&sort_by=*
+Disallow: /*&page=*
+
+# Disallow tracking and analytics
+Disallow: /a/
+Disallow: /track/
+Disallow: /analytics/
+
+# Allow important directories
+Allow: /collections/
+Allow: /products/
+Allow: /pages/
+Allow: /blogs/
+Allow: /policies/
+
+# Allow CSS, JS, and images for proper rendering
+Allow: /assets/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.png
+Allow: /*.gif
+Allow: /*.webp
+Allow: /*.svg
+Allow: /*.ico
+
+# Sitemap locations
+Sitemap: {{ shop.url }}/sitemap.xml
+Sitemap: {{ shop.url }}/sitemap_products_1.xml
+Sitemap: {{ shop.url }}/sitemap_collections_1.xml
+Sitemap: {{ shop.url }}/sitemap_pages_1.xml
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Host directive for canonical domain
+Host: {{ shop.url | remove: 'https://' | remove: 'http://' }}

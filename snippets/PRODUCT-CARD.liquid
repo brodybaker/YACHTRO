@@ -1,0 +1,18 @@
+<div class="product-card group bg-white rounded-2xl shadow-lg overflow-hidden transition transform hover:scale-[1.02]">
+  <a href="{{ product.url }}" class="block relative">
+    {% if product.featured_image %}
+      <img
+        src="{{ product.featured_image | img_url: '600x' }}"
+        alt="{{ product.title }}"
+        class="w-full h-64 object-cover transition duration-300 group-hover:opacity-90"
+      >
+    {% endif %}
+    <div class="p-4">
+      <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ product.title }}</h3>
+      <p class="text-sm text-gray-600">{{ product.vendor }}</p>
+      <p class="text-base font-medium text-black mt-2">
+        {{ product.price | money }}
+      </p>
+    </div>
+  </a>
+</div>
